@@ -1,0 +1,57 @@
+﻿@model List<DevCms.ContentTypes.Entity>
+
+<div class="col-xs-12 col-sm-6">
+    <div class="row title-b">
+        <div class="col-xs-12">
+            <i class="fa fa-list" aria-hidden="true"></i>
+            <span class="block-title">Entities: </span>
+            @if (Model.Any())
+            {
+                <strong>@Model.First().EntityType.Name</strong>
+            }
+        </div>
+    </div>
+    <div style="padding-bottom: 35px;">
+        @if (!Model.Any())
+        {
+            <div class="row white-b">
+                <div class="col-xs-9">
+                    Empty
+                </div>
+            </div>
+        }
+        else
+        {
+            foreach (var typeInstance in Model)
+            {
+                <div class="row type-block">
+                    <div class="col-xs-12 vcenter">
+                        <div class="type-name">
+                            @{ var nameAttr = typeInstance.AttrValues.First();
+                            }
+                            @if (nameAttr == null)
+                            {
+                                @typeInstance.Id
+                            }
+                            else
+                            {
+                                @nameAttr.Value
+                            }
+                        </div>
+                    </div>
+                    <div class="edit-delete-panel">
+                        <a href="~/Admin/Content/Edit/@typeInstance.Id">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true">
+                            </i>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="~/Admin/Content/Delete/@typeInstance.Id" class="delete-link">
+                            <i class="fa fa-times" aria-hidden="true">
+                            </i>
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

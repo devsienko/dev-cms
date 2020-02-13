@@ -1,0 +1,1669 @@
+/* twitter bootstrap work around : http://getbootstrap.com/getting-started/#support-ie10-width */
+@-webkit-viewport   { width: device-width; }
+@-moz-viewport      { width: device-width; }
+@-ms-viewport       { width: device-width; }
+@-o-viewport        { width: device-width; }
+@viewport           { width: device-width; }
+
+@font-face {
+    font-family: 'Intro';
+    src: local('Intro'), url('../Fonts/Intro/intro.woff2') format('woff2'), 
+        url('../Fonts/Intro/intro.woff') format('woff'),
+        url('../Fonts/Intro/intro.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+/* latin */
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('../Fonts/Open Sans/OpenSans-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Condensed';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Open Sans Cond Light'), local('OpenSans-CondensedLight'), url('../Fonts/Open Sans Condensed/OpenSansCondensed_normal_300.woff') format('woff');
+}
+
+/* latin */
+@font-face {
+  font-family: 'Open Sans Condensed';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Condensed Bold'), local('OpenSans-CondensedBold'), url('../Fonts/Open Sans Condensed/OpenSansCondensed_normal_700.woff') format('woff');
+}
+
+/* latin */
+@font-face {
+  font-family: 'Open Sans Condensed';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Open Sans Cond Light Italic'), local('OpenSans-CondensedLightItalic'), 
+      url('../Fonts/Open Sans Condensed/OpenSansCondensed_italic_300.woff') format('woff');
+}
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Bitter-Regular'), url(../Fonts/Bitter/bitter.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../Fonts/FontAwesome/fontawesome-webfont.eot?v=4.3.0');
+  /* http://stackoverflow.com/a/20573678/292787 */
+  src: url('../Fonts/FontAwesome/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('../Fonts/FontAwesome/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('../Fonts/FontAwesome/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('../Fonts/FontAwesome/fontawesome-webfont.ttf') format('truetype'), url('../Fonts/FontAwesome/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Default/Bootstrap Overrides */
+
+html {
+    background-color: white;
+    height: 100%; /* don't allow scrolling on the body, only on .container */
+}
+
+
+body {
+    background-color: #efeff4;
+    font-family: sans-serif;
+    font-size: 14px;
+    /* i commented it out, because we don't know why it was added
+    width: 100%;*/
+    /* without height: 100% when side menu is closing the body tag doesn't hides menu completely if
+    body height is less than screen height */
+    height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: sans-serif;
+    text-transform: uppercase;
+}
+
+/* Turn Off Number Input Spinners */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+/* modal window (bootstrap overriding) */
+
+.modal {
+  text-align: center;
+}
+
+.modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+}
+
+.modal-dialog {
+    width: 90%;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    max-width: 600px;
+}
+
+.modal-content{
+    background-color: transparent;
+    background-image: url(../Images/modal/background.png);
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    border: none;
+    border-radius: 3px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: white;
+}
+
+.modal-header{
+    border: none;
+}
+
+.modal-close{
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    background-image: url(../Images/modal/close.png);
+    background-size: 100%;
+    opacity: 1;
+}
+
+.modal-body {
+    padding: 5px 15px;
+}
+
+.modal-body input {
+    padding: 0 2px;
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 7px 15px;
+}
+
+.modal-footer .btn-default {
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    color: white;
+    text-shadow: none;
+    border: 1px solid white;
+    box-shadow: none;
+    padding: 5px;
+    font-family: sans-serif;
+    font-size: 1.2em;
+    text-transform: none;
+    font-weight: normal;
+}
+
+/* scroll fixes */
+.modal-open .modal {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  overflow-y: scroll;
+}
+
+.modal-backdrop {
+    z-index: 1035; /* bootstrap's modal has 1040, top-navigation has 1030. 1035 is in between*/
+}
+
+.modal .modal-dialog{
+    z-index: 1036; /* it must be more then .modal-backdrop and less then bootstrap's modal (has 1040) */
+}
+
+.modal-form-item-title {
+    font-weight: bold;
+}
+
+/* reset tables to have no spacing by default */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+    table td,
+    table th,
+    table label {
+        margin: 0;
+        padding: 0;
+    }
+
+    table.center-block {
+        display: table;
+    }
+
+.btn {
+    font-family: Bitter, serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    text-transform: uppercase;
+}
+
+.btn-default,
+.btn-default:FOCUS {
+    font-family: sans-serif;
+    background-color: #3C3C3C;
+    background-image: none;
+    border: none;
+    color: white;
+    text-shadow: none;
+}
+
+    .btn-default:ACTIVE,
+    .btn-default:HOVER,
+    .btn-default[disabled] {
+        background: transparent;
+        background-color: #B9D582;
+        border-color: white;
+        color: white;
+    }
+
+.btn-primary,
+.btn-primary:FOCUS {
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    color: white;
+    text-shadow: none;
+    border: 1px solid white;
+}
+
+.btn-primary:ACTIVE,
+.btn-primary:HOVER,
+.btn-primary[disabled] {
+        background-color: #B9D582;
+    border-color: white;
+    color: white;
+}
+
+.container {
+    padding-top: .5em;
+    margin-top: 0;
+    /* scrolling is disabled on the body but enabled here */
+    height: 100%;
+    overflow-y: auto;
+    -overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 768px) {
+  .container {
+        padding-top: .5em;
+    }
+}
+
+.form-group {
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.form-panel {
+    padding-left: 15px;
+}
+
+@media (max-width: 767px) {
+    .form-panel {
+        padding-left: 0;
+    }
+}
+
+.form-panel input, textarea {
+    border: none;
+}
+
+.form-panel input:focus, .form-panel textarea:focus {
+    outline: none;
+}
+.help-block {
+    font-size: 10pt;
+}
+
+.sign-in-credentials .help-block {
+    margin-bottom: 0;
+}
+
+.panel-primary > .panel-heading {
+    background-color: #00AEEF;
+    background-image: none;
+    border-color: #00AEEF;
+    font-family: Bitter, serif;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.text-warning {
+    color: #E68513;
+}
+
+
+/* Custom Styles */
+
+a {
+    color: #00AEEF;
+}
+
+.navbar {
+    border-radius: 0;
+}
+
+.navbar-center {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+/* margin top for main content must fit the size of the top menu.
+ * this way top menu doesn't overlap on the content when the top menu has fixed position.
+ * it must be padding, not margin. with margin there are a scroll issues:
+ * - on margin-top allows content to go behind top menu even when all elements fit the page size
+ * - on margin-bottom doesn't allow to scroll up page
+ */
+
+.main-view-padding-top {
+    padding-top: 75px;
+}
+
+.main-menu {
+    cursor: pointer;
+    display: inline-block;
+    height: 28px;
+    width: 28px;
+    background-size: 350%;
+    background-position: -35px -5px;
+    background-repeat: no-repeat;
+}
+
+.top-menu-item {
+    float: left;
+    padding: 0 15px;
+    margin: 0 15px;
+    opacity: .6;
+}
+
+.top-menu-item.active {
+    opacity: 1;
+}
+
+.top-menu {
+    color: white;
+    background-color: #A9D100;
+}
+
+.bmenu-title {
+    color: white;
+    font-size: 10px;
+}
+
+.navbar-top {
+    border-bottom: solid 1px #00AEEF;
+    border-radius: 0;
+    font-family: Bitter, serif;
+    font-size: 12pt;
+    line-height: normal;
+    margin-bottom: 0;
+}
+
+    .navbar-top .btn,
+    .navbar-top .btn:FOCUS {
+        border: none;
+        color: #00AEEF;
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        padding: 0;
+        text-transform: uppercase;
+    }
+
+        .navbar-top .btn:ACTIVE,
+        .navbar-top .btn:HOVER {
+            background-color: inherit;
+            background-image: none;
+            box-shadow: none;
+            color: #BAE1ED;
+        }
+
+    .navbar-top .container-fluid {
+        padding: 0; /* remove padding because a conflict with the navbar-right causes a horizontal scrollbar. we'll put the padding on the navbar-left/right classes instead*/
+    }
+
+    .navbar-top .glyphicon {
+        color: #00AEEF;
+        font-size: 20pt;
+    }
+
+        .navbar-top .glyphicon:ACTIVE,
+        .navbar-top .glyphicon:HOVER {
+            color: #BAE1ED;
+        }
+
+    .navbar-top .navbar-center {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .navbar-top .navbar-left {
+        padding-left: 15px;
+    }
+
+    .navbar-top .navbar-right {
+        padding-right: 15px;
+    }
+
+.navbar-left {
+    float: left !important;
+    margin-left: 0;
+}
+
+.navbar-right {
+    float: right !important;
+    margin-right: 0;
+}
+
+.navbar-nav {
+    /* replace margin with padding to extend area where navigation item can be clicked */
+    margin: 0;
+    padding-top: 7.5px;
+    padding-bottom: 7.5px;
+}
+
+    .navbar-title span {
+        display: inline-block;
+        font-family: sans-serif;
+        font-size: 1em;
+        font-weight: bold;
+        margin: 0;
+        margin-top: 15px;
+    }
+
+
+.slide {
+    position: absolute;
+    left: 0;
+    margin-top: 0px;
+    width: 100%;
+}
+
+    .slide.ng-enter,
+    .slide.ng-leave {
+        /*-webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        transition: all 0.2s ease;*/
+    }
+
+    .slide.ng-enter {
+        left: 100%;
+    }
+
+    .slide.ng-enter-active {
+        left: 0;
+    }
+
+    .slide.ng-leave {
+        left: 0;
+    }
+
+    .slide.ng-leave-active {
+        left: -100%;
+    }
+
+.slide-back {
+    position: absolute;
+    left: 0;
+    margin-top: 0px;
+    width: 100%;
+}
+
+    .slide-back.ng-enter,
+    .slide-back.ng-leave {
+        /*-webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        transition: all 0.2s ease;*/
+    }
+
+    .slide-back.ng-enter {
+        left: -100%;
+    }
+
+    .slide-back.ng-enter-active {
+        left: 0;
+    }
+
+    .slide-back.ng-leave {
+        left: 0;
+    }
+
+    .slide-back.ng-leave-active {
+        left: 100%;
+    }
+
+.navbar-fixed-top {
+    height: 65px;
+    border-radius: 0;
+    font-family: Bitter, serif;
+    font-size: 12pt;
+    line-height: normal;
+    margin-bottom: 0;
+    background-color: #9CC101;
+    color: white;
+    /* override the default fixed position to avoid issue on iOS with scrolling when keyboard is active */
+    /* http://getbootstrap.com/getting-started/#support-fixed-position-keyboards */
+    -webkit-backface-visibility: hidden;  /* the fix of the fixed position of the top menu */
+    -webkit-transform: translateZ(0); /* http://stackoverflow.com/questions/17068361/chrome-positionfixed-inside-positionabsolute-breaking-with-iframe-video */
+}
+
+    .navbar-fixed-top .btn,
+    .navbar-fixed-top .btn:FOCUS {
+        border: none;
+        color: white !important;
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        padding: 0;
+        text-transform: uppercase;
+        z-index: 999;
+    }
+
+        .navbar-fixed-top .btn:ACTIVE,
+        .navbar-fixed-top .btn:HOVER {
+            background-color: inherit;
+            background-image: none;
+            box-shadow: none;
+            /* this hover makes a problem on iOS.
+             * on iOS there is a sticky hover issue http://stackoverflow.com/questions/17233804/how-to-prevent-sticky-hover-effects-for-buttons-on-touch-devices
+              and it's easier to resolve it by just removing this hover color
+             */
+            /*color: #BAE1ED !important;*/
+        }
+
+    .navbar-fixed-top .container-fluid {
+        padding: 0; /* remove padding because a conflict with the navbar-right causes a horizontal scrollbar. we'll put the padding on the navbar-left/right classes instead*/
+    }
+
+    .navbar-fixed-top .glyphicon {
+        color: #00AEEF;
+        font-size: 20pt;
+        top: 10px;
+    }
+
+        .navbar-fixed-top .glyphicon:ACTIVE,
+        .navbar-fixed-top .glyphicon:HOVER {
+            color: #BAE1ED !important;
+        }
+
+    .navbar-fixed-top .navbar-center {
+        margin-left: 0;
+        margin-right: 0;
+        z-index: -999;
+    }
+
+    .navbar-fixed-top .navbar-left {
+        padding-left: 15px;
+    }
+
+    .navbar-fixed-top .navbar-right {
+        padding-right: 15px;
+    }
+
+    .navbar-fixed-top .navbar-nav>li>a {
+        margin-top: 14px;
+    }
+
+.grayBackground {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.property-caption {
+    font-family: Bitter, serif;
+    font-size: 16pt;
+    font-weight: bold;
+    margin-top: 3em;
+    text-align: center;
+    /*text-transform: uppercase;*/
+}
+
+.property-navbar {
+    /*margin-bottom: 10em;*/
+    margin-top: 3em;
+    /* fix to bottom */
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 20%;
+}
+
+.property-navbar .btn {
+    font-weight: normal;
+    margin-bottom: 0.7em;
+    height: 5em;
+    width: 100%; /* full width buttons */
+}
+
+.form-panel .btn-group, .form-panel .btn-group button {
+    width: 100%;
+}
+
+.btn-group {
+    padding: 15px;
+}
+
+.btn-group .btn {
+    background: #9cc101;
+    font-family: sans-serif;
+    font-size: 1.1em;
+    text-transform: none;
+}
+
+.btn-property,
+.btn-property:FOCUS {
+    background-color: #BABABA;
+    background-image: none;
+    border: none;
+    color: black;
+    text-shadow: none;
+    border: 2px solid black;
+}
+
+    .btn-property:ACTIVE,
+    .btn-property:HOVER,
+    .btn-property[disabled] {
+        background-color: #E9E8E9;
+        color: black;
+    }
+
+.property-type-container {
+    padding-top: 3em;
+    margin-top: 0;
+}
+
+.bootstrap-select {
+    padding: 0;
+    padding-left: 24px;
+    height: 48px;
+}
+
+select option[disabled]:first-child {
+	display: none;
+}
+
+.select-placeholder {
+    color: #999;
+}
+
+.container-overflow-hidden {
+    overflow: hidden;
+}
+
+.logo {
+    height: 45px;
+    background-image: url(../Images/logo.png);
+    background-repeat: no-repeat;
+    background-size: 38px;
+    margin-top: -5px;
+    font-size: 2.1em;
+    padding-left: 45px;
+}
+
+.logo-provider {
+    /*width : 400px;
+    height: 120px;*/
+    width: 100%;
+    height: 150px;
+    border: 2px solid #555;
+    cursor: pointer;
+}
+
+.fancy {
+  line-height: 0.5;
+  text-align: center;
+}
+.fancy span {
+  display: inline-block;
+  position: relative;  
+}
+.fancy span:before,
+.fancy span:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-bottom: 1px solid  #555;
+  /*border-top: 1px solid #555;*/
+  top: 0;
+  width: 150px;
+}
+.fancy span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+.fancy span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+.bottom-button{
+    width: 100%;
+}
+
+.bottom-button button{
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;/* add space to not allow a button to stick to the screen edge */
+}
+
+/* angular */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.panel-container {
+    position: relative;
+}
+
+#menu {
+    background-color: #FFFFFF;
+    border: 1px solid #A4A4A4;
+    -webkit-box-shadow: 2px 3px 4px #aaaaaa;
+    -moz-box-shadow: 2px 3px 4px #aaaaaa;
+    box-shadow: 2px 3px 4px #aaaaaa;
+}
+
+    #menu ul {
+        border: none;
+        box-shadow: none;
+    }
+
+.menu-icon {
+    height: 31px;
+    width: 31px;
+    background-image: url(../Images/Icons/icons.svg);
+    background-size: 1023px 419px;
+    display: table-cell;
+}
+
+.sign-out-icon {
+    background-position: -222px 210px;
+}
+
+.accs-icon {
+    background-position: -274px 210px;
+}
+
+.dash-icon  {
+    background-position: -326px 210px;
+}
+
+.bill-icon {
+    background-position: -378px 210px;
+}
+
+.po-icon {
+    background-position: -430px 210px;
+}
+
+.change-pass-icon {
+    background-position: -481px 210px;
+}
+
+.profile-icon {
+    background-position: -533px 210px;
+}
+
+.faq-icon {
+    background-position: -585px 210px;
+}
+
+.outage-map-icon {
+    background-position: -120px 210px;
+}
+
+.cancel-service-icon {
+    background-position: -78px 167px;
+}
+
+.move-service-icon {
+    background-position: -121px 167px;
+}
+
+.usage-icon {
+    background-position: -80px 210px;
+}
+
+.user-info span {
+    /* table-cell and paddint-top to center user name */
+    display: table-cell;
+    padding-top: 12px;
+}
+
+.user-info img {
+    border-radius: 28px; /* make circle from img for avatar */ 
+}
+
+
+
+.list-menu-item.user-info .title {
+    padding-top: 4px;
+    padding-left: 25px;
+}
+
+.list-menu-item {
+    color: #7A7A7A;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 16px 5px 16px 5px;
+    margin: 0 10px;
+    border-bottom: 3px solid #999999;
+    /* without list-style-type: none on windows phone the list item disks(bullets) are visible */
+    list-style-type: none;
+    cursor: pointer;
+}
+
+    .list-menu-item .icon {
+        color: #7A7A7A;
+        font-size: 1.8em;
+        display: table-cell;/* http://stackoverflow.com/a/15223879 */
+        vertical-align: middle;
+    }
+
+    .list-menu-item .title {
+        display: table-cell;/* http://stackoverflow.com/a/15223879 */
+        vertical-align: middle;
+        padding-left: 15px;/*because margin-left doesn't work with display: table-cell;*/
+        font-family: open_sansregular;
+        font-size: 12px;
+    }
+
+    .list-menu-item.active {
+        color: #93BE3E;
+        border-bottom-color: #93BE3E;
+    }
+
+    .list-menu-item.active i {
+        color: #93BE3E;
+    }
+
+.block-shadows {
+    box-shadow: 3px 5px 8px #aaaaaa;
+    -moz-box-shadow: 3px 5px 8px #aaaaaa;
+    -webkit-box-shadow: 3px 5px 8px #aaaaaa;
+}
+
+/* for big screen sizes when width is restricted for the main content the y-scrollable class puts the right scroll bar to the right part of the screen */
+.y-scrollable {
+    overflow-y: auto; /* adds scroll for content */
+    overflow-x: hidden; /* avoid scroll when left menu is opened */
+    width: 100%; /* scroll will be attached to the right screen border */
+    position: absolute; /* absolute + top 75px + bottom 0 = div will be under top menu till bottom border of the page */
+    top: 60px; /* space for top menu */
+    bottom: 0;
+}
+
+@media (min-width: 1200px) {
+    /* make top menu content to be centered on big screens */
+    .navbar-sized {
+        width: 1200px;
+    }
+
+    .navbar-sized .navbar-title {
+        width: 1200px;
+    }
+
+}
+
+.block-icon {
+    vertical-align:-5%;
+    padding-right: 10px;
+}
+
+.block-header {
+    font-size: 16px;
+    font-family: 'Bitter', serif;
+    background-color: #00AEEF;
+    color: white;
+    padding-top: 10px;
+    padding-right: 5px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    -webkit-box-shadow: 0 2px 4px 0px #C9C9C9;
+    -moz-box-shadow: 0 2px 4px 0px #C9C9C9;
+    box-shadow: 0 2px 4px 0px #C9C9C9;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.header-icon {
+    display: inline-block;
+    width: 27px;
+    height: 27px;
+    margin-bottom: -9px;
+    margin-top: -2px;
+    margin-right: 8px;
+    background-size: 1023px 419px;
+    background-image: url(../Images/Icons/icons.svg);
+}
+
+.m-address-icon {
+    background-position: 584px 262px;
+}
+
+.mobile-icon {
+    background-position: 896px 262px;
+}
+
+.what-is-icon, .account-icon {
+    background-position: 853px 262px;
+}
+
+.contact-icon, .c-info-icon {
+    background-position: 808px 262px;
+}
+
+.new-user-icon {
+    background-position: 763px 262px;
+}
+
+.q-pay-icon {
+    background-position: 629px 262px;
+}
+
+.login-icon, .avatar-icon {
+    background-position: 719px 262px;
+}
+
+@media (max-width: 300px) {
+    .block-header {
+        font-size: 13px;
+    }
+}
+
+.block-header-sepatate {
+    font-family: Open Sans Condensed; 
+    font-weight: bold;
+    font-size: 1.2em;
+    color: white;
+    padding: 10px 5px 10px 15px;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 1px solid #BABABA;
+    border-radius: 6px;
+    background-color: #00AEEF;
+}
+
+.sushi-block .form-group {
+    padding-top: 5px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    color: #5F5F5F;
+}
+
+@media (min-width: 240px) and (max-width: 300px) {
+    .sushi-block .form-group {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 768px) {
+    .sushi-block .form-group {
+        padding-bottom: 5px;
+    }
+}
+
+.sushi-block {
+    border: 1px solid #7A7A7A;
+    border-radius: 6px;
+    /*padding-top: 0px; why?*/
+    /*overflow-x: hidden; why?*/
+    margin-bottom: 15px;
+}
+
+.sushi-block input[type="text"],
+.sushi-block input[type="password"],
+.sushi-block input[type="number"],
+.sushi-block input[type="email"] {
+    border: 1px solid #DBDBDB;
+    background-color: #F6F6F6 !important;
+    font-size: 14px;
+}
+
+.sushi-block input:disabled {
+    color: #A4A4A4;
+}
+
+@media (min-width: 240px) and (max-width: 300px) {
+    .sushi-block input {
+        font-size: 14px;
+    }
+}
+
+.center-text {
+    text-align: center;
+}
+
+.error-box {
+    padding: 3px;
+}
+
+.welcome-right-column{
+    float: right;
+}
+
+/* http://arnique.net/web-design/58/a-quick-guide-to-changing-bootstraps-gutter-width/ */
+ .gutter-8.row {
+     margin-right: -8px;
+     margin-left: -8px;
+ }
+
+.gutter-8 > [class^="col-"], .gutter-8 > [class^=" col-"] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+ .gutter-0.row {
+     margin-right: -0px;
+     margin-left: -0px;
+ }
+
+.gutter-0 > [class^="col-"], .gutter-8 > [class^=" col-"] {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.block-body {
+    padding: 15px;
+}
+
+.data-value.data-amount {
+    font-family: 'Bitter', serif;
+    font-size: 16px;
+    color: #93B33E;
+}
+
+.data-value.data-amount.data-amount-unpaid
+{
+    color: #FF3C00;
+}
+
+.data-value.data-amount.data-amount-pending
+{
+    color: lightyellow;
+}
+
+.data-label {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 600;
+    text-align:right;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #A4A4A4;
+}
+
+.data-value-col {
+    padding-left: 0px;
+}
+
+.data-value {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #707070;
+}
+
+.chevron-class {
+    padding-top: 45px;
+    text-align: right;
+    /* move left from the right border
+    * because the chevron item too big and doesn't fit col-xs-1 */
+    margin-left: -10px;
+}
+
+.chevron-color {
+    color: #00AEEF;
+}
+
+@media (min-width: 384px) and (max-width: 401px) {
+    .data-value.data-amount {
+        /* dump fix to avoid overlap on this specific screen size */
+        padding-left: 4px;
+    }
+}
+
+@media (min-width: 384px) {
+    .chevron-class {
+        /* center vertically */
+        padding-top: 20px;
+        /* reset margin-left */
+        margin-left: 0;
+    }
+}
+
+.active-tab {
+    border-bottom: 3px solid #93BE3E;
+}
+
+.active-tab>a {
+    color: #93BE3E !important;
+}
+
+/*  http://stackoverflow.com/questions/18756040/making-an-unordered-list-stretch-horizontally-so-as-to-always-fill-up-a-div
+    http://jsfiddle.net/nC2RV/
+    to space bottom menu items evenly I make width: 100%; display: table; for ul, and display: table-cell for li
+*/
+.top-tabs ul {
+    width: 100%;
+    font-size: 0;/* removes space between li on windows phone */
+    display: table;
+    width: 100%;
+}
+.top-tabs li {
+    float: none;/* override bootstrap's float left */
+    text-align: center;
+    cursor: pointer;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.top-tabs .twoTabs li{
+    width: 50%;/* width: 100% doesn't work on windows phone */
+}
+
+.navbar-top .navbar-left {
+    line-height: 16pt;	/* for some reason the line-height of the glyph doesn't adjust with its font size */
+}
+
+.top-tabs .navbar-nav>li>a {
+    font-size: 15px;
+    font-weight: 600;	/* semibold */
+    text-transform: uppercase;
+    color: #5F5F5F;
+    font-family: 'Open Sans Condensed', sans-serif;
+    height: 50px;
+    padding-top: 15px;/* center vertically */
+}
+
+.highlighted-region {
+    background-color: #D0EBF7;
+}
+
+.rounded-corners {
+    border-radius: 6px;
+    border: 1px solid lightgrey;
+}
+
+.account-list {
+    cursor: pointer;
+}
+
+.validation-error {
+    font-family: 'Bitter', serif;
+    color: red;
+    font-size: 90%;
+}
+
+.has-error .help-block {
+    font-family: 'Bitter', serif;
+    /*font-size: 90%;*/
+}
+
+a[aria-expanded="true"] > i.fa-caret-right:before {
+    content: "\f0d7";
+}
+
+a[aria-expanded="true"].collapsed > i.fa-caret-right:before {
+    content: "\f0da";
+}
+
+.mobile-app-links div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.mobile-app-links img {
+    margin-top: 5px;
+}
+
+.shortStep1 {
+    display: none;
+}
+
+.longStep1 {
+    display: block;
+}
+
+.welcome-page .shortStep1 {
+    display: block;
+}
+
+.welcome-page .longStep1 {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .welcome-page .shortStep1 {
+        display: none;
+    }
+    .welcome-page .longStep1 {
+        display: block;
+    }
+    .welcome-page .longStep1 .cancel {
+        display: none;
+    }
+}
+
+.normal-input {
+    font-family: open_sansregular, Tahoma, sans-serif;
+    font-size: 12pt;
+    background-color: white;
+    border: 1px solid rgb(169, 169, 169);
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    height: 29px
+}
+
+.as-table {
+    display: table;
+}
+
+.as-table-cell {
+    display: table-cell;
+    float: none;
+    vertical-align: middle;
+}
+
+@media (max-width: 384px) {
+    .as-table .col-xs-8, .as-table .col-xs-4 {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+@media (min-width: 768px) {
+    .sushi-modal-dialog {
+        max-width: 600px;
+    }
+}
+
+ .collapse-icon {
+    font-size: 20px; 
+    vertical-align: middle;
+    padding-right: 5px;
+}
+
+/* sub-blocks visually separate groups of related controls from each other. 
+    usually even sub-blocks change backgroud color using highlighted-sub-block class */
+.sub-block {
+    padding-top: 15px; 
+    padding-bottom: 15px; 
+}
+
+.highlighted-sub-block {
+    background-color: #EDFAFF;
+    border-bottom: 1px #A4A4A4 solid;
+    border-top: 1px #A4A4A4 solid;
+}
+
+/* sub-blocks inside block-body need negative margins 
+    and positive padding to cover paddings in the block-body class */
+.block-body .sub-block {
+    margin-right: -15px;
+    margin-left: -15px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+/* the first sub-block needs negative maring and positive padding to expand himself 
+    and cover paddings on block-body */
+.block-body .first-sub-block {
+    margin-top: -15px;
+    padding-top: 15px;
+}
+
+/* the last sub-block needs rounded corners to fit into block-body,
+    also it needs nerative margin and positive padding to expand himself 
+    and cover paddings on block-body */
+.block-body .last-sub-block {
+    margin-bottom: -15px;
+    padding-bottom: 15px;
+    -ms-border-bottom-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    -ms-border-bottom-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+/* for labels on radio buttons the usual margin-bottom 5px doesn't work
+    so i have to wrap a label with a radio into a div with this class */
+.radio-label {
+    margin-bottom: 5px;
+}
+
+/* for alerts inside body-block (usually it's just the message "Please correct 
+    your information" we don't need margin bottom */
+.in-block-alert {
+    margin-bottom: 0;
+}
+
+/* quickpay-row and quickpay-caption classes should not be used.
+    they doesn't have semantic sence.
+    i'm in process of replacing them:
+        quickpay-row => form-group 
+        quickpay-caption => just use label inside a div with form-group class
+*/
+.quickpay-row {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.quickpay-caption {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Open Sans Condensed';
+    color: rgb(95, 95, 95);
+}
+
+.mainPageScroll {
+    /* .mainPageScroll is used across whole site to do scrolling to the top of the page.
+        note: there are two divs with this class, because vertical scroll appears
+        on two different divs depending on screen resolution.
+    */
+    background: #efeff4;
+}
+
+/* fix for drop down on kendo grid pagin. this avoids vertical scroll in metro theme */
+@media only screen and (max-width: 1024px) {
+    .k-webkit .k-pager-numbers .k-current-page .k-link {
+        line-height: 2em;
+    }
+}
+
+.profile-menu {
+    cursor: pointer;
+    display: inline-block;
+    height: 26px;
+    width: 26px;
+    margin-top: 10px;
+    background: url(../Images/Icons/profile.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+
+.back-button-left {
+    cursor: pointer;
+    display: inline-block;
+    height: 19px;
+    width: 19px;
+    margin-top: 14px;
+    background: url(../Images/Icons/back.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.cart-alert-ellipse {
+    display: inline-block;
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    font-size: 11px;
+    width: 19px;
+    height: 19px;
+    background: #FFFFFF;
+    margin-left: 21px;
+    text-align: center;
+    line-height: 17px;
+    color: #9CC101;
+}
+
+#cart-alert {
+    cursor: pointer;
+    display: inline-block;
+    height: 47px;
+    width: 32px;
+    margin-top: 5px;
+    background: url(../Images/Icons/cart.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position-x: 5px;
+    background-position-y: 5px;
+}
+
+.modal-title {
+    text-transform: none;
+}
+
+.form-error{
+    color: red;
+}
+
+.admin-box {
+    margin-bottom: 25px;
+}
+
+.admin-box-header {
+    height: 45px;
+    line-height: 45px;
+    font-weight: bold;
+    color: #525252;
+    font-size: 1.1em;
+    background: white;
+	border: 1px solid #d6d6d6;
+	-webkit-background-clip: padding-box;
+    border-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0
+}
+
+.admin-box-body .form-horizontal{
+    padding-top: 15px;
+}
+
+.control-box {
+    cursor: pointer;
+    margin: 0 7px;
+}
+
+
+.title-b {
+    color: rgb(171, 171, 177);
+    font-size: .8em;
+    padding-bottom: 4px;
+}
+
+.white-b {
+    background-color: white;
+    font-weight: bold;
+    font-size: .9em;
+    border-bottom: 1px solid #efeff4;
+}
+
+.white-b>div {
+    padding-top: 10px;
+    padding-bottom: 7px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.auth_block {
+    width:355px;
+    padding:45px;
+    background: #ffffff;
+    position: relative;
+    top: 30%;
+    left: 32%;
+}
+
+.auth_block input{
+    font-family: Arial;
+}
+
+.auth_block .link {
+    color: #46AD6C;
+    font-size: .9em;
+}
+
+.auth_block .desc {
+    color: #C4C4C4;
+    font-size: .9em;
+}
+
+.auth_block .form-control {
+    border:0;
+    background: #efeff4;
+    color: #333333;
+    margin: 0 auto;
+    border-radius: 0;
+}
+
+.auth_block .form-control:focus {
+    outline: 0;
+    box-shadow: none;
+}
+
+.auth_block .btn {
+    background: #A9D100;
+    font-family: sans-serif;
+    font-size: 1.1em;
+    text-transform: none;
+    color: white;
+    width: 100%;
+}
+
+.remove-btn {
+    position: absolute;
+    right: -34px;
+    top: 44px;
+    padding: 4px 10px;
+    border: 1px solid #e4e4e4;
+    z-index: 999999;
+    background: #e4e4e4;
+}
+
+
+.top-submenu {
+    position: fixed;
+    height: 30px;
+    line-height: 27px;
+    font-family: sans-serif;
+    font-size: 0.8em;
+    color: white;
+    font-weight: bold;
+    width: 100%;
+    left: 0;
+    top: 58px;
+    background-color: #8FB200;
+    border-bottom: 2px solid #efeff4;
+    z-index: 3;
+    overflow-y: hidden;
+}
+
+.top-submenu .list-inline {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: 55px;
+    padding-right: 30px;
+}
+
+/* chrome, safari - hide scrollbar */
+.top-submenu .list-inline::-webkit-scrollbar { width: 0; }
+
+/* ie 10+ - hide scrollbar*/
+.top-submenu .list-inline { -ms-overflow-style: none; }
+
+/* ff(deprecated)  - hide scrollbar */
+.top-submenu .list-inline { overflow: -moz-scrollbars-none; }
+
+.top-submenu .list-inline>li {
+    height: 38px;
+    margin-left: 30px;
+    opacity: 0.8;
+}
+
+.top-submenu .list-inline>li.active {
+    opacity: 1;
+    border-bottom: 2px solid white;
+}
+
+@media (min-width: 768px) {
+    .category-menu-wrap {
+        width: 750px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 992px){
+    .category-menu-wrap {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .category-menu-wrap {
+        width: 1170px;
+    }
+
+}
+
+.edit-delete-panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-top: 10px;
+    padding-right: 10px;
+    font-size: .9em;
+    color: #4a4a4a;
+}
+
+.edit-delete-panel i {
+    cursor: pointer;
+}
+
+.context-spinner {
+    display: inline-block;
+    position: absolute;
+    right: 15px;
+    margin-top: 2px;
+    height: 11px;
+    width: 25px;
+    background: url('../Images/Icons/spinner.gif') no-repeat;
+    background-size: 460%;
+    background-position-x: -46px;
+    background-position-y: -42px;
+    opacity: .3;
+}
+
+.container .settings-page .row {
+
+}
+
+.setting-row {
+    margin: 0;
+    position: relative;
+    padding: 10px 0;
+    border-bottom: 1px solid #efeff4;
+    background: white;
+}
+
+.delete-setting {
+    position: absolute;
+    right: -16px;
+}
+
+.settings-page input {
+    width: 100%;
+    border: none;
+}
+
+.settings-page .setting-title input {
+    text-align: left;
+    font-weight: bold;
+}
+
+.settings-page input:focus {
+    outline: none;
+}
+
+.link-btn {
+    text-transform: none;
+    text-decoration: none;
+    color: rgb(171, 171, 177);
+}
+
+    .link-btn:hover {
+        text-transform: none;
+        text-decoration: none;
+        color: black;
+    }
+
+.img-preview-wrp {
+    padding: 10px 0;
+}

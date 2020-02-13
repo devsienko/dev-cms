@@ -1,0 +1,81 @@
+﻿@using DevCms.ContentTypes
+@model AddContentDto
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container users">
+    <div class="row">
+        @await Component.InvokeAsync("Objects", new { objTypeId = Model.ContentTypeId })
+        <div class="col-xs-12 col-sm-6">
+            <div class="row title-b right-title-b">
+                <div class="col-xs-12 pointer">
+                    <span>
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <span class="block-title">Add entity</span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-panel">
+                <form asp-action="Index" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="ContentTypeId" />
+                    @for (int i = 0; i < Model.Attrs.Count; i++)
+                    {
+                        <div class="row white-b">
+                            <div class="col-xs-3">
+                                @Model.Attrs[i].AttributeName&nbsp;*
+                            </div>
+                            <div class="col-xs-9">
+                                <input asp-for="@Model.Attrs[i].AttributeId" />
+                                @if (Model.Attrs[i].AttributeType == AttrType.String)
+                                {
+                                    <input asp-for="@Model.Attrs[i].AttributeType" />
+                                    <input asp-for="@Model.Attrs[i].Value"
+                                           placeholder="@Model.Attrs[i].AttributeName"
+                                           data-val="@(Model.Attrs[i].Required ? "true": "false")"
+                                           data-val-required="@(Model.Attrs[i].Required ? "Field &quot;" + Model.Attrs[i].AttributeName + "&quot; is required.": "")" />
+                                    <span asp-validation-for="@Model.Attrs[i].Value" class="text-danger"></span>
+                                }
+                                else if (Model.Attrs[i].AttributeType == AttrType.Image)
+                                {
+                                    <span class="img-att-value-box">
+                                        <a data-lightbox="image-@Model.Attrs[i].AttributeId"
+                                           data-title="@Model.Attrs[i].AttributeName">
+
+                                            <img id="img-att-value-@(Model.Attrs[i].AttributeId)"
+                                                 src="#" class="preview-av-img"/>
+                                        </a>
+                                        
+                                        <input asp-for="@Model.Attrs[i].AttributeType" />
+                                        <input asp-for="@Model.Attrs[i].ValueAsImage"
+                                               data-val="@(Model.Attrs[i].Required ? "true" : "false")"
+                                               data-val-required="@(Model.Attrs[i].Required ? "Field &quot;" + Model.Attrs[i].AttributeName + "&quot; is required." : "")" />
+                                        <span asp-validation-for="@Model.Attrs[i].ValueAsImage" class="text-danger"></span>
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    }
+                    <div class="row white-b">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="submit" value="Create" class="btn btn-default">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/common.js"></script>
+    <link href="~/lib/lightbox2/css/lightbox.css" rel="stylesheet" />
+    <script src="~/lib/lightbox2/js/lightbox.js"></script>
+}

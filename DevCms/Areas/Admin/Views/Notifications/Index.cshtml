@@ -1,0 +1,115 @@
+﻿@model NotificationView
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <div class="row title-b">
+                    <div class="col-xs-12">
+                        New requests
+                    </div>
+                </div>
+                @{
+                    if (Model.New.Count == 0)
+                    {
+
+                        <div class="row white-b" ng-show="!newMails || newMails.length == 0">
+                            <div class="col-xs-9 sushi-image">
+                                Empty
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        foreach (var notification in Model.New)
+                        {
+                            <a href="~/Admin/Notifications/Notification/@notification.Id" class="notification-link">
+                                <div class="row white-b" ng-repeat="item in newMails" ng-click="goToItem(item)">
+                                    <div class="col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <span style="font-size: 1.1em;">
+                                                    @(notification.Date)
+                                                </span>
+                                            </div>
+                                            <div class="col-xs-2 text-right" style="padding-right: 18px; margin-top: -1px;">
+                                                <i class="fa fa-circle" aria-hidden="true" style="font-size: .9em; color: #FFEB3B"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12" style="margin-top: -18px">
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <span style="font-size: .9em; color: rgb(199, 199, 205);">
+                                                    @(notification.Email)
+                                                </span>
+                                            </div>
+                                            <div class="col-xs-2 text-right">
+                                                <span class="order-item-next"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row viewed-requests">
+        <div class="col-xs-12">
+            <div>
+                <div class="row title-b">
+                    <div class="col-xs-12">
+                        Viewed requests
+                    </div>
+                </div>
+                @{
+                    if (Model.Viewed.Count == 0)
+                    {
+                        <div class="row white-b" ng-show="!history || history.length == 0">
+                            <div class="col-xs-9 sushi-image">
+                                Empty
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        foreach (var notification in Model.Viewed)
+                        {
+                            <a href="~/Admin/Notifications/Notification/@notification.Id" class="notification-link">
+                                <div class="row white-b" ng-repeat="item in history" ng-click="goToItem(item)">
+                                    <div class="col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <span style="font-size: 1.1em;">
+                                                    @(notification.Date)
+                                                </span>
+                                            </div>
+                                            <div class="col-xs-2 text-right" style="padding-right: 18px; margin-top: -1px;">
+                                                <i class="fa fa-circle" aria-hidden="true" style="font-size: .9em; color: #9CC101"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12" style="margin-top: -18px">
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <span style="font-size: .9em; color: rgb(199, 199, 205);">
+                                                    @(notification.Email)
+                                                </span>
+                                            </div>
+                                            <div class="col-xs-2 text-right">
+                                                <span class="order-item-next"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

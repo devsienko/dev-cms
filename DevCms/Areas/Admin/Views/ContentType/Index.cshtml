@@ -1,0 +1,97 @@
+﻿@model CreateContentTypeModel
+
+<div class="container">
+    <div class="row">
+        @await Component.InvokeAsync("ContentTypes")
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="row title-b right-title-b">
+                <div class="col-xs-12 pointer">
+                    <span class="cmd-pointer">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <span class="block-title">Add type</span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-panel">
+                <form asp-action="Index">
+                    <div class="row white-b">
+                        <div class="col-xs-3">
+                            Name
+                            <span>
+                                *
+                            </span>
+                        </div>
+                        <div class="col-xs-9">
+                            <input asp-for="Name" placeholder="Name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row white-b">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="submit" class="btn btn-default">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="type-def-title"></div>
+            <div class="form-panel">
+                <div>
+                    @if (ViewBag.EditedType != null)
+                    {
+                        foreach (var attr in ViewBag.EditedType.Attrs)
+                        {
+                            <div class="row type-block">
+                                <div class="col-xs-12 type-desc-wrap vcenter">
+                                    <div class="type-name">
+                                        @attr.Name <span class="attrt-type-title">(@attr.AttrType)</span>
+                                    </div>
+                                </div>
+                                <div class="edit-delete-panel">
+                                    <a href="~/Admin/ContentType/EditAttr/@attr.Id">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true">
+                                        </i>
+                                    </a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a href="~/Admin/ContentType/DeleteAttr/@attr.Id" class="delete-link">
+                                        <i class="fa fa-times" aria-hidden="true">
+                                        </i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="delete-product.html">
+    <div class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-close close" data-dismiss="modal" aria-label="Close"></span>
+                    <h4 class="modal-title">Подтвердите удаление.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Remove данный продукт?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal"
+                            class="btn btn-default" style="padding: 9px;">
+                        Нет
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Да</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

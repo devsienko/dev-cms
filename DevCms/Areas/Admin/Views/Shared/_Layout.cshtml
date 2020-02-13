@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Job Board - Admin</title>
+
+    <meta charset="UTF-8" />
+    <!-- without maximum-scale=1.0, minimum-scale=1.0, user-scalable=no in viewport there are
+         issues on windows phone in landscape orientation (https://atrinova.atlassian.net/browse/GNIS-849) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <!-- http://stackoverflow.com/a/30983051/292787 -->
+    <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:; default-src *; style-src * 'self' 'unsafe-inline'; script-src * 'self' 'unsafe-inline' 'unsafe-eval'; connect-src * 'self'">
+
+    <link href="~/images/logo.png" rel="shortcut icon" type="image/x-icon" />
+    @RenderSection("Styles", required: false)
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/admin-script.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Fonts/FontAwesome/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/Global.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/Global-admin.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/popup.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/bootstrap-xxs.css" type="text/css" />
+
+    <script src="~/js/DeploymentSettings.js"></script>
+</head>
+<body ng-app="sushiApp" ui-view="body-view">
+    <span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
+
+    <section class="navbar-default">
+        <section class="navbar top-menu" ng-controller="BottomMenuController">
+            <div class="container" ng-if='isAuthorized()'>
+                <div class="row" style="min-width: 992px">
+                    <a class="top-menu-item logo-link active" href="~/Admin">
+                        <div class="admin logo"></div>
+                    </a>
+                    <div class="main-menu-admin">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="top-menu-item" href="~/Admin/Notifications">
+                                <div class="text-center" style="margin-top: 2px; margin-bottom: -2px;">
+                                    <i class="fa fa-envelope fa-2x"></i>
+                                </div>
+                                <div class="text-center">
+                                    <span class="bmenu-title">Feedback</span>
+                                </div>
+                            </a>
+                            <!--<div class="top-menu-item" ui-sref-active="active" ui-sref='Menu'>
+                                <div class="text-center">
+                                    <i class="fa fa-sitemap fa-2x"></i>
+                                </div>
+                                <div class="text-center">
+                                    <span class="bmenu-title">Разделы</span>
+                                </div>
+                            </div>-->
+                            <a class="top-menu-item" href="~/Admin/ContentType">
+                                <div class="text-center">
+                                    <i class="fa fa-cog fa-2x"></i>
+                                </div>
+                                <div class="text-center">
+                                    <span class="bmenu-title">Content</span>
+                                </div>
+                            </a>
+                            <a class="top-menu-item" href="~/Admin/Users">
+                                <div class="text-center">
+                                    <i class="fa fa-user fa-2x"></i>
+                                </div>
+                                <div class="text-center">
+                                    <span class="bmenu-title">Users</span>
+                                </div>
+                            </a>
+                            <!--<div class="top-menu-item" ui-sref-active="active" ui-sref='Roles'>-->
+                            <!--<div class="top-menu-item" ui-sref-active="active" ng-click="showAlert('Временно отключено')">
+                                <div class="text-center">
+                                    <i class="fa fa-users fa-2x"></i>
+                                </div>
+                                <div class="text-center">
+                                    <span class="bmenu-title">Роли</span>
+                                </div>
+                            </div>-->
+                            <a class="top-menu-item" href="~/Admin/Settings">
+                                <div class="text-center">
+                                    <i class="fa fa-cogs fa-2x"></i>
+                                </div>
+                                <div class="text-center">
+                                    <span class="bmenu-title">Settings</span>
+                                </div>
+                            </a>
+                            <a class="top-menu-item" href="~/Admin/Account/Logout">
+                                <div class="text-center">
+                                    <i class="fa fa-sign-out fa-2x"></i>
+                                </div>
+                                <div class="text-right">
+                                    <span class="bmenu-title">Sign out</span>
+                                </div>
+                            </a>
+                        }
+
+                        <a class="top-menu-item go-to-site" ui-sref-active="active" href="~/" target="_blank">
+                            <div class="text-center">
+                                <i class="fa fa-globe fa-2x"></i>
+                            </div>
+                            <div class="text-center">
+                                <span class="bmenu-title">Site</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="logo">
+                        Dashboard
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+<div class="y-scrollable mainPageScroll" ui-view="main-content">
+    <div class="container" id="sushi-wrap">
+        @RenderBody()
+    </div>
+</div>
+
+<script type="text/ng-template" id="logout-confirmation.html">
+        <div class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="modal-close close" data-dismiss="modal" aria-label="Close"></span>
+                        <h4 class="modal-title">Подтвердите выход.</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Вы действительно хотите выйти из системы?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="close('No')" data-dismiss="modal"
+                                class="btn btn-default" style="padding: 9px;">
+                            Нет
+                        </button>
+                        <button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Да</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+@RenderSection("Scripts", required: false)
+</body>
+</html>

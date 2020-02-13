@@ -1,0 +1,45 @@
+﻿@model List<DevCms.Db.User>
+
+<div class="col-xs-12 col-sm-6">
+    <div class="row title-b">
+        <div class="col-xs-12">
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span class="block-title">Users</span>
+        </div>
+    </div>
+    <div style="padding-bottom: 35px;">
+        @if (!Model.Any())
+        {
+            <div class="row white-b">
+                <div class="col-xs-9">
+                    В системе нет пользователей.
+                </div>
+            </div>
+        }
+        else
+        {
+            foreach (var user in Model)
+            {
+                <div class="row type-block">
+                    <div class="col-xs-12 vcenter">
+                        <div class="type-name">
+                            @user.Email
+                            <i class="fa fa-lock fa-lock-users" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="edit-delete-panel">
+                        <a href="~/Admin/Users/Edit/@user.Id">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true">
+                            </i>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="~/Admin/Users/Delete/@user.Id" class="delete-link">
+                            <i class="fa fa-times" aria-hidden="true">
+                            </i>
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

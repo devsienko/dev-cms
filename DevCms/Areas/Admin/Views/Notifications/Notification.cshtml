@@ -1,0 +1,56 @@
+﻿@model Notification
+
+<div class="container">
+    <div class="row back-button">
+        <div class="col-xs-12">
+            <a href="~/Admin/Notifications"><i class="fa fa-arrow-left"></i> Назад</a>
+        </div>
+    </div>
+    <div>
+        <div class="row title-b">
+            <div class="col-xs-12">
+                Обращение пользователя
+            </div>
+        </div>
+        <div class="row white-b">
+            <div class="col-xs-3">
+                Дата
+            </div>
+            <div class="col-xs-9">
+                @(Model.Date)
+            </div>
+        </div>
+        <div class="row white-b">
+            <div class="col-xs-3">
+                Имя
+            </div>
+            <div class="col-xs-9">
+                @(Model.Name)
+            </div>
+        </div>
+        <div class="row white-b">
+            <div class="col-xs-3">
+                Email
+            </div>
+            <div class="col-xs-9">
+                @(Model.Email)
+            </div>
+        </div>
+        <div class="row white-b">
+            <div class="col-xs-3">
+                Телефон
+            </div>
+            <div class="col-xs-9">
+                @(string.IsNullOrEmpty(Model.Phone) ? "-" : Model.Phone)
+            </div>
+        </div>
+        <div class="row white-b">
+            <div class="col-xs-3">
+                Сообщение
+            </div>
+            <div class="col-xs-9">
+                @(Model.Message)
+            </div>
+        </div>
+    </div>
+</div>

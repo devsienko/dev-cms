@@ -1,0 +1,71 @@
+﻿@model EditUserModel
+
+<div class="container users">
+    <div class="row">
+        @*<partial name="Users/_GetUsers.cshtml" />*@
+        @await Component.InvokeAsync("Users")
+        <div class="col-xs-12 col-sm-6">
+            <div class="row title-b right-title-b">
+                <div class="col-xs-12 pointer">
+                    <span>
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <span class="block-title">Add user</span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-panel">
+                <form asp-action="Edit">
+                    <input asp-for="Id" />
+                    <div class="row white-b">
+                        <div class="col-xs-3">
+                            Email
+                            <span>
+                                *
+                            </span>
+                        </div>
+                        <div class="col-xs-9">
+                            <input asp-for="Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row white-b">
+                        <div class="col-xs-3">
+                            Password
+                            <span>
+                                *
+                            </span>
+                        </div>
+                        <div class="col-xs-9">
+                            <input asp-for="Password" value="Password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row white-b">
+                        <div class="col-xs-3">
+                            Confirm password
+                            <span>
+                                *
+                            </span>
+                        </div>
+                        <div class="col-xs-9">
+                            <input asp-for="ConfirmPassword" value="Password" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row white-b">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="submit" class="btn btn-default">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

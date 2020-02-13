@@ -1,0 +1,17 @@
+[Unit]
+Description=https://github.com/devsienko/dev-cms
+
+[Service]
+WorkingDirectory=/home/dev-cms/DevCms/bin/Release/netcoreapp2.1/publish
+ExecStart=/usr/bin/dotnet /home/dev-cms/DevCms/bin/Release/netcoreapp2.1/publish/dev-cms.dll
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=dev-cms
+User=root
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target
