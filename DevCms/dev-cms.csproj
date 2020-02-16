@@ -26,6 +26,15 @@
     <Content Update="Areas\Admin\Views\Account\Login.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Admin\Views\Dictionaries\Components\Dictionaries\Default.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Dictionaries\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Dictionaries\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Admin\Views\ContentType\Components\ContentTypes\Default.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

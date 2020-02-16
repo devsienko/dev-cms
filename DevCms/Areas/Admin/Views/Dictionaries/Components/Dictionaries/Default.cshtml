@@ -1,0 +1,49 @@
+﻿@model List<DevCms.ContentTypes.Dictionary>
+
+<div class="col-xs-12 col-sm-6">
+    <div class="row title-b">
+        <div class="col-xs-12">
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span class="block-title">Dictionaries</span>
+        </div>
+    </div>
+    <div style="padding-bottom: 35px;">
+        @if (!Model.Any())
+        {
+            <div class="row white-b">
+                <div class="col-xs-9">
+                    Empty
+                </div>
+            </div>
+        }
+        else
+        {
+            foreach (var dictionary in Model)
+            {
+                <div class="row type-block">
+                    <div class="col-xs-12 type-desc-wrap vcenter">
+                        <div class="type-name">
+                            @dictionary.Name
+                        </div>
+                    </div>
+                    <div class="edit-delete-panel">
+                        @*<a href="~/Admin/Dictionaries/Index/@dictionary.Id" title="View">
+                            <i class="fa fa-eye" aria-hidden="true">
+                            </i>
+                        </a>*@
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="~/Admin/Dictionaries/Edit/@dictionary.Id" title="Edit">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true">
+                            </i>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="~/Admin/Dictionaries/Delete/@dictionary.Id" class="delete-link" title="Remove">
+                            <i class="fa fa-times" aria-hidden="true">
+                            </i>
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

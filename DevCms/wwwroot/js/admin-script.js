@@ -7,7 +7,7 @@
             $('.delete-link').click(function(e) {
                 e.preventDefault();
                 var addressValue = $(this).attr("href");
-                if (confirm("Remove выбранный элемент?")) {
+                if (confirm("Remove selected item?")) {
                     window.location.href = addressValue;
                 }
             });
