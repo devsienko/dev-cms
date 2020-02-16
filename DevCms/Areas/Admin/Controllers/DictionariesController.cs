@@ -57,7 +57,12 @@ namespace DevCms.Areas.Admin.Controllers
             return View(new EditDictionaryDto
             {
                 Id = dictionary.Id,
-                Name = dictionary.Name
+                Name = dictionary.Name,
+                Items = dictionary.Items.Select(i => new EditDictionaryItemDto
+                {
+                    Id = i.Id,
+                    Name = i.Name
+                })
             });
         }
 
@@ -65,14 +70,42 @@ namespace DevCms.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(EditDictionaryDto model)
         {
-            if (ModelState.IsValid)
+            // this mess exists because I wanted to have the only one endpoint to edit/create the attributes
+            // and to edit the name of the content type
+            // I can avoid it by using some RequireId attribute or by creating some another action like 
+            // CreateAttr /EditAttr, but I decided to use this approach
+            if (IsAdditionNewDictionaryItem(model))
+            {
+                ModelState["Name"].Errors.Clear();
+                var dictionary = Dictionaries.Dicts
+                    .FirstOrDefault(t => t.Id == model.Id);
+                if (dictionary == null)
+                    return NotFound();
+                dictionary.Items.Add(new DictionaryItem
+                {
+                    Id = dictionary.Items.Max(i => i.Id) + 1,
+                    Name = model.AddedOrEditedItem.Name
+                });
+                ModelState.Clear();
+                model = new EditDictionaryDto
+                {
+                    Id = dictionary.Id,
+                    Name = dictionary.Name,
+                    Items = dictionary.Items.Select(i => new EditDictionaryItemDto
+                    {
+                        Id = i.Id,
+                        Name = i.Name
+                    })
+                };
+            }
+            else if (ModelState.IsValid)
             {
                 var dictionary = Dictionaries.Dicts
                     .FirstOrDefault(t => t.Id == model.Id);
                 if (dictionary == null)
                     return NotFound();
                 dictionary.Name = model.Name;
-               
+
                 ModelState.Clear();
                 model = new EditDictionaryDto
                 {
@@ -80,7 +113,14 @@ namespace DevCms.Areas.Admin.Controllers
                     Name = dictionary.Name
                 };
             }
+
             return View(model);
+        }
+
+        private bool IsAdditionNewDictionaryItem(EditDictionaryDto model)
+        {
+            var result = model.AddedOrEditedItem != null && !model.AddedOrEditedItem.Id.HasValue;
+            return result;
         }
 
         public IActionResult Delete(int id)
@@ -94,5 +134,16 @@ namespace DevCms.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult DeleteItem(int id)
+        {
+            if (id < 1)
+                return NotFound();
+            var dictionary = Dictionaries.Dicts.FirstOrDefault(t => t.Items.Any(i => i.Id == id));
+            if (dictionary == null)
+                return NotFound();
+            var itemToDeleting = dictionary.Items.First(i => i.Id == id);
+            dictionary.Items.Remove(itemToDeleting);
+            return RedirectToAction(nameof(Edit), new { id = dictionary.Id });
+        }
     }
 }

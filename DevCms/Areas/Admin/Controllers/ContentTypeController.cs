@@ -51,8 +51,8 @@ namespace DevCms.Areas.Admin.Controllers
             var model = EditContentTypeModel.GetViewModelFrom(contentType);
             if (attr.HasValue)
             {
-                model.EditedAttr = model.Attrs.FirstOrDefault(at => at.Id == attr);
-                if (model.EditedAttr == null)
+                model.AddedOrEditedAttr = model.Attrs.FirstOrDefault(at => at.Id == attr);
+                if (model.AddedOrEditedAttr == null)
                     return NotFound();
             }
 
@@ -76,10 +76,10 @@ namespace DevCms.Areas.Admin.Controllers
                     return NotFound();
                 contentType.Attrs.Add(new Attribute
                 {
-                    Name = model.EditedAttr.Name,
-                    AttrType = model.EditedAttr.AttributeType,
+                    Name = model.AddedOrEditedAttr.Name,
+                    AttrType = model.AddedOrEditedAttr.AttributeType,
                     ContentTypeId = contentType.Id,
-                    Required = model.EditedAttr.Required
+                    Required = model.AddedOrEditedAttr.Required
                 });
                 _db.SaveChanges();
                 ModelState.Clear();
@@ -93,12 +93,12 @@ namespace DevCms.Areas.Admin.Controllers
                 if (contentType == null)
                     return NotFound();
                 contentType.Name = model.Name;
-                if (model.EditedAttr != null && model.EditedAttr.Id.HasValue)
+                if (model.AddedOrEditedAttr != null && model.AddedOrEditedAttr.Id.HasValue)
                 {
-                    var editedAttr = contentType.Attrs.First(at => at.Id == model.EditedAttr.Id);
-                    editedAttr.Name = model.EditedAttr.Name;
-                    editedAttr.AttrType = model.EditedAttr.AttributeType;
-                    editedAttr.Required = model.EditedAttr.Required;
+                    var editedAttr = contentType.Attrs.First(at => at.Id == model.AddedOrEditedAttr.Id);
+                    editedAttr.Name = model.AddedOrEditedAttr.Name;
+                    editedAttr.AttrType = model.AddedOrEditedAttr.AttributeType;
+                    editedAttr.Required = model.AddedOrEditedAttr.Required;
                 }
                 _db.SaveChanges();
                 ModelState.Clear();
@@ -110,7 +110,7 @@ namespace DevCms.Areas.Admin.Controllers
 
         private bool IsAdditionNewAttribute(EditContentTypeModel model)
         {
-            var result = model.EditedAttr != null && !model.EditedAttr.Id.HasValue;
+            var result = model.AddedOrEditedAttr != null && !model.AddedOrEditedAttr.Id.HasValue;
             return result;
         }
 

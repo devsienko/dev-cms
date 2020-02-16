@@ -19,7 +19,7 @@ namespace DevCms.Models
 
         public List<ContentAttributeModel> Attrs { get; set; }
 
-        public ContentAttributeModel EditedAttr { get; set; }
+        public ContentAttributeModel AddedOrEditedAttr { get; set; }
 
         public static EditContentTypeModel GetViewModelFrom(EntityType entityType)
         {

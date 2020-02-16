@@ -4,16 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevCms.Models
 {
-    public class EditDictionaryDto
+    public class EditDictionaryItemDto
     {
         [HiddenInput]
         public int? Id { get; set; }
         
         [Required]
         public string Name { get; set; }
-
-        public IEnumerable<EditDictionaryItemDto> Items { get; set; }
-
-        public EditDictionaryItemDto AddedOrEditedItem { get; set; }
     }
 }

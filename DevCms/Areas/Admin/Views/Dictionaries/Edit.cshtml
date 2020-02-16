@@ -5,16 +5,16 @@
         @await Component.InvokeAsync("Dictionaries")
 
         <div class="col-xs-12 col-sm-6">
-            <div class="row title-b right-title-b">
-                <div class="col-xs-12 pointer">
-                    <span>
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                        <span class="block-title">Add Dictionary</span>
-                    </span>
+            <form asp-action="Edit">
+                <div class="row title-b right-title-b">
+                    <div class="col-xs-12 pointer">
+                        <span>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <span class="block-title">Add Dictionary</span>
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-panel">
-                <form asp-action="Edit">
+                <div class="form-panel">
                     <div class="row white-b">
                         <input asp-for="Id" />
                         <div class="col-xs-3">
@@ -35,37 +35,85 @@
                             </button>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="type-def-title"></div>
-            @*<div class="form-panel">
-                <div>
-                    @if (ViewBag.EditedType != null)
-                    {
-                        foreach (var attr in ViewBag.EditedType.Attrs)
+
+                </div>
+
+                @if (Model.Items?.Count() > 0)
+                {
+                    <div class="type-def-title"></div>
+                }
+                <div class="form-panel">
+                    <div>
+                        @foreach (var dictionaryItem in Model.Items)
                         {
                             <div class="row type-block">
                                 <div class="col-xs-12 type-desc-wrap vcenter">
                                     <div class="type-name">
-                                        @attr.Name <span class="attrt-type-title">(@attr.AttrType)</span>
+                                        @dictionaryItem.Name
                                     </div>
                                 </div>
                                 <div class="edit-delete-panel">
-                                    <a href="~/Admin/ContentType/EditAttr/@attr.Id">
+                                    <a href="~/Admin/Dictionaries/Edit/@Model.Id?item=@dictionaryItem.Id">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true">
                                         </i>
                                     </a>
                                     &nbsp;&nbsp;&nbsp;
-                                    <a href="~/Admin/ContentType/DeleteAttr/@attr.Id" class="delete-link">
+                                    <a href="~/Admin/Dictionaries/DeleteItem/@dictionaryItem.Id" class="delete-link">
                                         <i class="fa fa-times" aria-hidden="true">
                                         </i>
                                     </a>
                                 </div>
                             </div>
                         }
-                    }
+                    </div>
+                    <div class="type-def-title"></div>
+
+                    <div class="row title-b right-title-b">
+                        <div class="col-xs-12 pointer">
+                            <span>
+                                <a href="~/Admin/ContentType/Edit/@Model.Id" class="link-btn">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <span class="block-title">Add item</span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </div>*@
+            </form>
+
+            @if (Model.AddedOrEditedItem == null)
+            {
+                <form asp-action="Edit">
+                    <input asp-for="Id" />
+                    <div class="form-panel">
+                        <input asp-for="AddedOrEditedItem.Id" />
+                        <div class="row white-b">
+                            <div class="col-xs-3">
+                                Name
+                                <span>
+                                    *
+                                </span>
+                            </div>
+                            <div class="col-xs-9">
+                                <input asp-for="AddedOrEditedItem.Name" placeholder="Name" />
+                                <span asp-validation-for="AddedOrEditedItem.Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row white-b">
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button type="submit" class="btn btn-default">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            }
+        </div>
         </div>
     </div>
-</div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

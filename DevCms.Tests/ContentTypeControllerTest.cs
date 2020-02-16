@@ -151,7 +151,7 @@ namespace DevCms.Tests
             Assert.Equal("Attr1", resultModel.Attrs.First().Name);
             Assert.Equal(1, resultModel.Id);
             Assert.Equal("Test name", resultModel.Name);
-            Assert.Null(resultModel.EditedAttr);
+            Assert.Null(resultModel.AddedOrEditedAttr);
         }
 
         [Fact]
@@ -195,10 +195,10 @@ namespace DevCms.Tests
             Assert.Equal("Attr1", resultModel.Attrs.First().Name);
             Assert.Equal(1, resultModel.Id);
             Assert.Equal("Test name", resultModel.Name);
-            Assert.NotNull(resultModel.EditedAttr);
-            Assert.Equal("Attr1", resultModel.EditedAttr.Name);
-            Assert.True(resultModel.EditedAttr.Required);
-            Assert.Equal(1, resultModel.EditedAttr.Id);
+            Assert.NotNull(resultModel.AddedOrEditedAttr);
+            Assert.Equal("Attr1", resultModel.AddedOrEditedAttr.Name);
+            Assert.True(resultModel.AddedOrEditedAttr.Required);
+            Assert.Equal(1, resultModel.AddedOrEditedAttr.Id);
         }
 
         [Fact]
@@ -229,7 +229,7 @@ namespace DevCms.Tests
             {
                 Name = "mmm",
                 Id = 1,
-                EditedAttr = new ContentAttributeModel
+                AddedOrEditedAttr = new ContentAttributeModel
                 {
                     Id = 1,
                     Name = "attr mmm",
@@ -263,7 +263,7 @@ namespace DevCms.Tests
             {
                 Name = "mmm",
                 Id = 1,
-                EditedAttr = new ContentAttributeModel//todo: not exist
+                AddedOrEditedAttr = new ContentAttributeModel//todo: not exist
                 {
                     Id = 11,
                     Name = "attr mmm"
@@ -285,7 +285,7 @@ namespace DevCms.Tests
             {
                 Name = "mmm",
                 Id = 1,
-                EditedAttr = new ContentAttributeModel//todo: not exist
+                AddedOrEditedAttr = new ContentAttributeModel//todo: not exist
                 {
                     Id = 1,
                     Name = "attr mmm"
@@ -309,7 +309,7 @@ namespace DevCms.Tests
             var model = new EditContentTypeModel
             {
                 Id = 1,
-                EditedAttr = new ContentAttributeModel//todo: not exist
+                AddedOrEditedAttr = new ContentAttributeModel//todo: not exist
                 {
                     Name = "attr mmm",
                     Required = true,
@@ -348,7 +348,7 @@ namespace DevCms.Tests
             var model = new EditContentTypeModel
             {
                 Id = 11,
-                EditedAttr = new ContentAttributeModel//todo: not exist
+                AddedOrEditedAttr = new ContentAttributeModel//todo: not exist
                 {
                     Name = "attr mmm"
                 }

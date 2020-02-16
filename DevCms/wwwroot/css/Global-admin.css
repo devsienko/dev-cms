@@ -551,6 +551,8 @@ a {
         text-transform: none;
         padding-bottom: 5px;
         padding-top: 5px;
+        box-shadow: none;
+        border: 1px solid #00D363;
     }
 
         .btn-group .btn:HOVER {
