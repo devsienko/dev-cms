@@ -42,43 +42,67 @@
                 {
                     <div class="type-def-title"></div>
                 }
-                <div class="form-panel">
-                    <div>
-                        @foreach (var dictionaryItem in Model.Items)
-                        {
-                            <div class="row type-block">
-                                <div class="col-xs-12 type-desc-wrap vcenter">
-                                    <div class="type-name">
-                                        @dictionaryItem.Name
+                    <div class="form-panel">
+                        <div>
+                            @foreach (var dictionaryItem in Model.Items)
+                            {
+                                <div class="row type-block">
+                                    <div class="col-xs-12 type-desc-wrap vcenter">
+                                        <div class="type-name">
+                                            @dictionaryItem.Name
+                                        </div>
+                                    </div>
+                                    <div class="edit-delete-panel">
+                                        <a href="~/Admin/Dictionaries/Edit/@Model.Id?itemId=@dictionaryItem.Id">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true">
+                                            </i>
+                                        </a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="~/Admin/Dictionaries/DeleteItem/@dictionaryItem.Id" class="delete-link">
+                                            <i class="fa fa-times" aria-hidden="true">
+                                            </i>
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="edit-delete-panel">
-                                    <a href="~/Admin/Dictionaries/Edit/@Model.Id?item=@dictionaryItem.Id">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true">
-                                        </i>
+                            }
+                        </div>
+                        <div class="type-def-title"></div>
+
+                        <div class="row title-b right-title-b">
+                            <div class="col-xs-12 pointer">
+                                <span>
+                                    <a href="~/Admin/Dictionaries/Edit/@Model.Id" class="link-btn">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        <span class="block-title">Add item</span>
                                     </a>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <a href="~/Admin/Dictionaries/DeleteItem/@dictionaryItem.Id" class="delete-link">
-                                        <i class="fa fa-times" aria-hidden="true">
-                                        </i>
-                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
+                        @if (Model.AddedOrEditedItem != null)
+                        {
+                            <input asp-for="AddedOrEditedItem.Id" />
+                            <div class="row white-b">
+                                <div class="col-xs-3">
+                                    Name
+                                    <span>
+                                        *
+                                    </span>
+                                </div>
+                                <div class="col-xs-9">
+                                    <input asp-for="AddedOrEditedItem.Name" placeholder="Name" />
+                                    <span asp-validation-for="AddedOrEditedItem.Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row white-b">
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <button type="submit" class="btn btn-default">
+                                        @(Model.AddedOrEditedItem != null ? "Save" : "Add")
+                                    </button>
                                 </div>
                             </div>
                         }
                     </div>
-                    <div class="type-def-title"></div>
-
-                    <div class="row title-b right-title-b">
-                        <div class="col-xs-12 pointer">
-                            <span>
-                                <a href="~/Admin/ContentType/Edit/@Model.Id" class="link-btn">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                    <span class="block-title">Add item</span>
-                                </a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
             </form>
 
             @if (Model.AddedOrEditedItem == null)
