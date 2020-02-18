@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DevCms.Models;
 using DevCms.ContentTypes;
+using DevCms.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +32,7 @@ namespace DevCms.Areas.Admin.Controllers
                 var contentType = new EntityType { Name = model.Name };
                 _db.ContentTypes.Add(contentType);
                 _db.SaveChanges();
-                var editModel = EditContentTypeModel.GetViewModelFrom(contentType);
+                var editModel = DtoHelper.GetEditContentTypeModel(contentType);
                 return View(nameof(Edit), editModel);
             }
             return View(model);
@@ -48,7 +49,7 @@ namespace DevCms.Areas.Admin.Controllers
                 .FirstOrDefault(t => t.Id == id);
             if (contentType == null)
                 return NotFound();
-            var model = EditContentTypeModel.GetViewModelFrom(contentType);
+            var model = DtoHelper.GetEditContentTypeModel(contentType);
             if (attr.HasValue)
             {
                 model.AddedOrEditedAttr = model.Attrs.FirstOrDefault(at => at.Id == attr);
@@ -83,7 +84,7 @@ namespace DevCms.Areas.Admin.Controllers
                 });
                 _db.SaveChanges();
                 ModelState.Clear();
-                model = EditContentTypeModel.GetViewModelFrom(contentType);
+                model = DtoHelper.GetEditContentTypeModel(contentType);
             }
             else if (ModelState.IsValid)
             {
@@ -102,7 +103,7 @@ namespace DevCms.Areas.Admin.Controllers
                 }
                 _db.SaveChanges();
                 ModelState.Clear();
-                model = EditContentTypeModel.GetViewModelFrom(contentType);
+                model = DtoHelper.GetEditContentTypeModel(contentType);
             }
             return View(model);
 

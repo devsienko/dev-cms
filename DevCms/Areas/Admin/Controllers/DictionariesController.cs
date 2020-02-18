@@ -5,7 +5,9 @@ using DevCms.Areas.Admin.Components;
 using DevCms.ContentTypes;
 using Microsoft.AspNetCore.Mvc;
 using DevCms.Models;
+using DevCms.Util;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevCms.Areas.Admin.Controllers
 {
@@ -13,11 +15,11 @@ namespace DevCms.Areas.Admin.Controllers
     [Area("Admin")]
     public class DictionariesController : Controller
     {
-        private readonly DevCmsDb _context;
+        private readonly DevCmsDb _db;
 
-        public DictionariesController(DevCmsDb context)
+        public DictionariesController(DevCmsDb db)
         {
-            _context = context;
+            _db = db;
         }
 
         public IActionResult Index()
@@ -30,24 +32,10 @@ namespace DevCms.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var lastId = Dictionaries.Dicts.Max(d => d.Id);
-                var dictionary = new Dictionary
-                {
-                    Id = lastId + 1,
-                    Name = model.Name,
-                    Items = new List<DictionaryItem>()
-                };
-                Dictionaries.Dicts.Add(dictionary);
-                return View(nameof(Edit), new EditDictionaryDto
-                {
-                    Id = dictionary.Id,
-                    Name = dictionary.Name,
-                    Items = dictionary.Items.Select(i => new EditDictionaryItemDto
-                    {
-                        Id = i.Id,
-                        Name = i.Name
-                    })
-                });
+                var dictionary = new Dictionary { Name = model.Name };
+                _db.Dictionaries.Add(dictionary);
+                _db.SaveChanges();
+                return View(nameof(Edit), DtoHelper.GeEditDictionaryDto(dictionary));
             }
             return View(model);
         }
@@ -58,20 +46,12 @@ namespace DevCms.Areas.Admin.Controllers
                 return NotFound();
             if (itemId.HasValue && itemId < 0)
                 return NotFound();
-            var dictionary = Dictionaries.Dicts
+            var dictionary = _db.Dictionaries
+                .Include(d => d.Items)
                 .FirstOrDefault(t => t.Id == id);
             if (dictionary == null)
                 return NotFound();
-            var model = new EditDictionaryDto
-            {
-                Id = dictionary.Id,
-                Name = dictionary.Name,
-                Items = dictionary.Items.Select(i => new EditDictionaryItemDto
-                {
-                    Id = i.Id,
-                    Name = i.Name
-                })
-            };
+            var model = DtoHelper.GeEditDictionaryDto(dictionary);
             var isEditItemRequest = itemId.HasValue;
             if (isEditItemRequest)
             {
@@ -93,50 +73,35 @@ namespace DevCms.Areas.Admin.Controllers
             if (IsAdditionNewDictionaryItem(model))
             {
                 ModelState["Name"].Errors.Clear();
-                var dictionary = Dictionaries.Dicts
+                var dictionary = _db.Dictionaries
+                    .Include(d => d.Items)
                     .FirstOrDefault(t => t.Id == model.Id);
                 if (dictionary == null)
                     return NotFound();
                 dictionary.Items.Add(new DictionaryItem
                 {
-                    Id = dictionary.Items.DefaultIfEmpty(new DictionaryItem{ Id = 0 }).Max(i => i.Id) + 1,
                     Name = model.AddedOrEditedItem.Name
                 });
+                _db.SaveChanges();
                 ModelState.Clear();
-                model = new EditDictionaryDto
-                {
-                    Id = dictionary.Id,
-                    Name = dictionary.Name,
-                    Items = dictionary.Items.Select(i => new EditDictionaryItemDto
-                    {
-                        Id = i.Id,
-                        Name = i.Name
-                    })
-                };
+                model = DtoHelper.GeEditDictionaryDto(dictionary);
             }
             else if (ModelState.IsValid)
             {
-                var dictionary = Dictionaries.Dicts
+                var dictionary = _db.Dictionaries
+                    .Include(d => d.Items)
                     .FirstOrDefault(t => t.Id == model.Id);
                 if (dictionary == null)
                     return NotFound();
                 dictionary.Name = model.Name;
                 if (model.AddedOrEditedItem != null && model.AddedOrEditedItem.Id.HasValue)
                 {
-                    var editedAttr = dictionary.Items.First(at => at.Id == model.AddedOrEditedItem.Id);
-                    editedAttr.Name = model.AddedOrEditedItem.Name;
+                    var editedItem = dictionary.Items.First(at => at.Id == model.AddedOrEditedItem.Id);
+                    editedItem.Name = model.AddedOrEditedItem.Name;
                 }
+                _db.SaveChanges();
                 ModelState.Clear();
-                model = new EditDictionaryDto
-                {
-                    Id = dictionary.Id,
-                    Name = dictionary.Name,
-                    Items = dictionary.Items.Select(i => new EditDictionaryItemDto
-                    {
-                        Id = i.Id,
-                        Name = i.Name
-                    })
-                };
+                model = DtoHelper.GeEditDictionaryDto(dictionary);
             }
 
             return View(model);
@@ -152,10 +117,11 @@ namespace DevCms.Areas.Admin.Controllers
         {
             if (id < 1)
                 return NotFound();
-            var dictionary = Dictionaries.Dicts.FirstOrDefault(t => t.Id == id);
+            var dictionary = _db.Dictionaries.FirstOrDefault(t => t.Id == id);
             if (dictionary == null)
                 return NotFound();
-            Dictionaries.Dicts.Remove(dictionary);
+            _db.Dictionaries.Remove(dictionary);
+            _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
@@ -163,12 +129,17 @@ namespace DevCms.Areas.Admin.Controllers
         {
             if (id < 1)
                 return NotFound();
-            var dictionary = Dictionaries.Dicts.FirstOrDefault(t => t.Items.Any(i => i.Id == id));
-            if (dictionary == null)
+            var dictionaryItem = _db.DictionaryItems
+                .Include(i => i.Dictionary)
+                .FirstOrDefault(i => i.Id == id);
+            if (dictionaryItem == null)
                 return NotFound();
-            var itemToDeleting = dictionary.Items.First(i => i.Id == id);
-            dictionary.Items.Remove(itemToDeleting);
-            return RedirectToAction(nameof(Edit), new { id = dictionary.Id });
+            if (dictionaryItem.Dictionary == null)
+                return NotFound();
+            var dictionaryId = dictionaryItem.DictionaryId;
+            _db.DictionaryItems.Remove(dictionaryItem);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Edit), new { id = dictionaryId });
         }
     }
 }

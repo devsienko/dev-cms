@@ -22,6 +22,8 @@ namespace DevCms.Models
         public virtual DbSet<Attribute> ContentAttrs { get; set; }
         public virtual DbSet<Entity> Content { get; set; }
         public virtual DbSet<AttrValue> AttrValues { get; set; }
+        public virtual DbSet<Dictionary> Dictionaries { get; set; }
+        public virtual DbSet<DictionaryItem> DictionaryItems { get; set; }
         public virtual DbSet<ApplicationSettings> ApplicationSettings { get; set; }
     }
 

@@ -20,24 +20,7 @@ namespace DevCms.Models
         public List<ContentAttributeModel> Attrs { get; set; }
 
         public ContentAttributeModel AddedOrEditedAttr { get; set; }
-
-        public static EditContentTypeModel GetViewModelFrom(EntityType entityType)
-        {
-            var result = new EditContentTypeModel
-            {
-                Id = entityType.Id,
-                Name = entityType.Name,
-                Attrs = entityType.Attrs.Select(a => new ContentAttributeModel
-                {
-                    Id = a.Id,
-                    Name = a.Name,
-                    AttributeType = a.AttrType,
-                    Required = a.Required
-                }).ToList()
-            };
-            return result;
-        }
-
+        
         public List<SelectListItem> AttrTypes = new List<SelectListItem>
         {
             new SelectListItem

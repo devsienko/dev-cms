@@ -25,17 +25,20 @@ namespace DevCms.Tests
                 Attributes = null
             };
 
+            Assert.Equal(1, mockRepo.Object.ContentTypes.Count());
+
             var controller = new ContentTypeController(mockRepo.Object);
             var result = controller.Index(model);
             var viewResult = Assert.IsType<ViewResult>(result);
             var resultModel = Assert.IsAssignableFrom<EditContentTypeModel>(
                 viewResult.ViewData.Model);
             Assert.Equal("Edit", viewResult.ViewName);
-
-            mockRepo.Verify();
+            
             mockRepo.Verify(db => db.SaveChanges(), Times.Once());
+            Assert.Equal(2, mockRepo.Object.ContentTypes.Count());
 
-            Assert.Equal(1, resultModel.Id);
+            var newEntity = mockRepo.Object.ContentTypes.Last();
+            Assert.Equal("Test", newEntity.Name);
             Assert.Empty(resultModel.Attrs);
         }
 
@@ -45,22 +48,18 @@ namespace DevCms.Tests
             var mockRepo = new Mock<DevCmsDb>();
             mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeList());
 
-            var model = new CreateContentTypeModel
-            {
-                Name = "Test",
-                Attributes = null
-            };
+            Assert.Equal(1, mockRepo.Object.ContentTypes.Count());
+
+            var model = new CreateContentTypeModel();
 
             var controller = new ContentTypeController(mockRepo.Object);
             controller.ModelState.AddModelError("Name", "Required");
             var result = controller.Index(model);
             var viewResult = Assert.IsType<ViewResult>(result);
-            var resultModel = Assert.IsAssignableFrom<CreateContentTypeModel>(viewResult.ViewData.Model);
-
-            mockRepo.Verify();
-
-            Assert.Equal("Test", resultModel.Name);
-            Assert.Null(resultModel.Attributes);
+            Assert.IsAssignableFrom<CreateContentTypeModel>(viewResult.ViewData.Model);
+            
+            mockRepo.Verify(db => db.SaveChanges(), Times.Never);
+            Assert.Equal(1, mockRepo.Object.ContentTypes.Count());
         }
 
         [Fact]
@@ -69,13 +68,16 @@ namespace DevCms.Tests
             var mockRepo = new Mock<DevCmsDb>();
             mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeList());
 
+            Assert.Equal(1, mockRepo.Object.ContentTypes.Count());
+
             var controller = new ContentTypeController(mockRepo.Object);
             var result = controller.Delete(1);
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Index", viewResult.ActionName);
-
-            mockRepo.Verify();
+            
             mockRepo.Verify(db => db.SaveChanges(), Times.Once());
+
+            Assert.Equal(0, mockRepo.Object.ContentTypes.Count());
         }
 
         [Fact]
