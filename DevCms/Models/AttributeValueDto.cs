@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using DevCms.ContentTypes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,5 +28,7 @@ namespace DevCms.Models
 
         //[Required(ErrorMessage = @"Field is required.")]
         public IFormFile ValueAsImage { get; set; }
+
+        public List<DictionaryItem> DictionaryItems { get; set; }
     }
 }

@@ -40,11 +40,20 @@ namespace DevCms.Areas.Admin.Controllers
                         AttributeName = a.Name,
                         AttributeType = a.AttrType,
                         AttributeId = a.Id,
-                        Required = a.Required
+                        Required = a.Required,
+                        DictionaryItems = a.AttrType != AttrType.Dictionary
+                                          ? null
+                                          : GetDictionaryItems()
                     }).ToList()
                     : new List<AttributeValueDto>()
             };
             return View(model);
+        }
+
+        private List<DictionaryItem> GetDictionaryItems()//int dictionaryId
+        {
+            var result = new List<DictionaryItem>();
+            return result;
         }
 
         [HttpPost]

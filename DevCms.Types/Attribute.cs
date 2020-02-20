@@ -8,5 +8,6 @@
         public EntityType EntityType { get; set; }
         public int ContentTypeId { get; set; }
         public bool Required { get; set; }
+        public int? DictionaryId { get; set; }
     }
 }

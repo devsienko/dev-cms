@@ -32,7 +32,8 @@ namespace DevCms.Util
                     Id = a.Id,
                     Name = a.Name,
                     AttributeType = a.AttrType,
-                    Required = a.Required
+                    Required = a.Required,
+                    DictionaryId = a.DictionaryId
                 }).ToList()
             };
             return result;

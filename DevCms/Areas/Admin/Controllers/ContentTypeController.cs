@@ -4,6 +4,7 @@ using DevCms.Models;
 using DevCms.ContentTypes;
 using DevCms.Util;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevCms.Areas.Admin.Controllers
@@ -57,6 +58,12 @@ namespace DevCms.Areas.Admin.Controllers
                     return NotFound();
             }
 
+            model.Dictionaries = _db.Dictionaries.Select(d => new SelectListItem
+            {
+                Value = d.Id.ToString(),
+                Text = d.Name
+            }).ToList();
+
             return View(model);
         }
 
@@ -80,7 +87,8 @@ namespace DevCms.Areas.Admin.Controllers
                     Name = model.AddedOrEditedAttr.Name,
                     AttrType = model.AddedOrEditedAttr.AttributeType,
                     ContentTypeId = contentType.Id,
-                    Required = model.AddedOrEditedAttr.Required
+                    Required = model.AddedOrEditedAttr.Required,
+                    DictionaryId = model.AddedOrEditedAttr.DictionaryId
                 });
                 _db.SaveChanges();
                 ModelState.Clear();
@@ -105,6 +113,11 @@ namespace DevCms.Areas.Admin.Controllers
                 ModelState.Clear();
                 model = DtoHelper.GetEditContentTypeModel(contentType);
             }
+            model.Dictionaries = _db.Dictionaries.Select(d => new SelectListItem
+            {
+                Value = d.Id.ToString(),
+                Text = d.Name
+            }).ToList();
             return View(model);
 
         }

@@ -18,6 +18,10 @@ namespace DevCms.Models
         [Required(ErrorMessage = @"Field ""Type"" is required.")]
         public AttrType AttributeType { get; set; }
 
+        [DisplayName("Dictionary")]
+        [Required]
+        public int? DictionaryId { get; set; }
+
         [DisplayName("Required")]
         public bool Required { get; set; }
     }

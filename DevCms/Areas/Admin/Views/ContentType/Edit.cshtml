@@ -1,4 +1,5 @@
-﻿@model EditContentTypeModel
+﻿@using DevCms.ContentTypes
+@model EditContentTypeModel
 
 <div class="container">
     <div class="row">
@@ -43,96 +44,115 @@
                 {
                     <div class="type-def-title"></div>
                 }
-                <div class="form-panel">
-                    <div>
-                        @foreach (var attr in Model.Attrs)
-                        {
-                            <div class="row type-block">
-                                <div class="col-xs-12 type-desc-wrap vcenter">
-                                    <div class="type-name">
-                                        @attr.Name <span class="attrt-type-title">(@attr.AttributeType)</span>
+                    <div class="form-panel">
+                        <div>
+                            @foreach (var attr in Model.Attrs)
+                            {
+                                <div class="row type-block">
+                                    <div class="col-xs-12 type-desc-wrap vcenter">
+                                        <div class="type-name">
+                                            @attr.Name <span class="attrt-type-title">(@attr.AttributeType@(attr.AttributeType == AttrType.Dictionary ? ":" 
+                                                + Model.Dictionaries.First(d => d.Value == attr.DictionaryId.ToString()).Text : ""))</span>
+                                        </div>
+                                    </div>
+                                    <div class="edit-delete-panel">
+                                        <a href="~/Admin/ContentType/Edit/@Model.Id?attr=@attr.Id">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true">
+                                            </i>
+                                        </a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="~/Admin/ContentType/DeleteAttr/@attr.Id" class="delete-link">
+                                            <i class="fa fa-times" aria-hidden="true">
+                                            </i>
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="edit-delete-panel">
-                                    <a href="~/Admin/ContentType/Edit/@Model.Id?attr=@attr.Id">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true">
-                                        </i>
+                            }
+                        </div>
+                        <div class="type-def-title"></div>
+
+                        <div class="row title-b right-title-b">
+                            <div class="col-xs-12 pointer">
+                                <span>
+                                    <a href="~/Admin/ContentType/Edit/@Model.Id" class="link-btn">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        <span class="block-title">Add attribute</span>
                                     </a>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <a href="~/Admin/ContentType/DeleteAttr/@attr.Id" class="delete-link">
-                                        <i class="fa fa-times" aria-hidden="true">
-                                        </i>
-                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        @if (Model.AddedOrEditedAttr != null)
+                        {
+                            <input asp-for="AddedOrEditedAttr.Id" />
+                            <div class="row white-b">
+                                <div class="col-xs-3">
+                                    Name
+                                    <span>
+                                        *
+                                    </span>
+                                </div>
+                                <div class="col-xs-9">
+                                    <input asp-for="AddedOrEditedAttr.Name" placeholder="Name" />
+                                    <span asp-validation-for="AddedOrEditedAttr.Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row white-b">
+                                <div class="col-xs-3">
+                                    Type
+                                    <span>
+                                        *
+                                    </span>
+                                </div>
+                                <div class="col-xs-9">
+                                    <select asp-for="AddedOrEditedAttr.AttributeType" asp-items="Model.AttrTypes"
+                                            class="type-select" disabled>
+                                        <option value="">-Type-</option>
+                                    </select>
+                                    <div>
+                                        <span asp-validation-for="AddedOrEditedAttr.AttributeType" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row white-b dictionaries-list">
+                                <div class="col-xs-3">
+                                    Dictionary
+                                    <span>
+                                        *
+                                    </span>
+                                </div>
+                                <div class="col-xs-9">
+                                    <select asp-for="AddedOrEditedAttr.DictionaryId" asp-items="Model.Dictionaries" 
+                                            disabled>
+                                        <option value="">-Dictionary-</option>
+                                    </select>
+                                    <div>
+                                        <span asp-validation-for="AddedOrEditedAttr.DictionaryId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row white-b">
+                                <div class="col-xs-3">
+                                    Required
+                                    <span>
+                                        *
+                                    </span>
+                                </div>
+                                <div class="col-xs-9">
+                                    <input asp-for="AddedOrEditedAttr.Required" />
+                                    <div>
+                                        <span asp-validation-for="AddedOrEditedAttr.Required" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row white-b">
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <button type="submit" class="btn btn-default">
+                                        @(Model.AddedOrEditedAttr != null ? "Save" : "Add")
+                                    </button>
                                 </div>
                             </div>
                         }
                     </div>
-                    <div class="type-def-title"></div>
-
-                    <div class="row title-b right-title-b">
-                        <div class="col-xs-12 pointer">
-                            <span>
-                                <a href="~/Admin/ContentType/Edit/@Model.Id" class="link-btn">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                    <span class="block-title">Add attribute</span>
-                                </a>
-                            </span>
-                        </div>
-                    </div>
-                    @if (Model.AddedOrEditedAttr != null)
-                    {
-                        <input asp-for="AddedOrEditedAttr.Id" />
-                        <div class="row white-b">
-                            <div class="col-xs-3">
-                                Name
-                                <span>
-                                    *
-                                </span>
-                            </div>
-                            <div class="col-xs-9">
-                                <input asp-for="AddedOrEditedAttr.Name" placeholder="Name" />
-                                <span asp-validation-for="AddedOrEditedAttr.Name" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="row white-b">
-                            <div class="col-xs-3">
-                                Type
-                                <span>
-                                    *
-                                </span>
-                            </div>
-                            <div class="col-xs-9">
-                                <select asp-for="AddedOrEditedAttr.AttributeType" asp-items="Model.AttrTypes" disabled>
-                                    <option value="">-Type-</option>
-                                </select>
-                                <div>
-                                    <span asp-validation-for="AddedOrEditedAttr.AttributeType" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row white-b">
-                            <div class="col-xs-3">
-                                Required
-                                <span>
-                                    *
-                                </span>
-                            </div>
-                            <div class="col-xs-9">
-                                <input asp-for="AddedOrEditedAttr.Required" />
-                                <div>
-                                    <span asp-validation-for="AddedOrEditedAttr.Required" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row white-b">
-                            <div class="btn-group" role="group" aria-label="...">
-                                <button type="submit" class="btn btn-default">
-                                    @(Model.AddedOrEditedAttr != null ? "Save" : "Add")
-                                </button>
-                            </div>
-                        </div>
-                    }
-                </div>
             </form>
             @if (Model.AddedOrEditedAttr == null)
             {
@@ -160,11 +180,28 @@
                                 </span>
                             </div>
                             <div class="col-xs-9">
-                                <select asp-for="AddedOrEditedAttr.AttributeType" asp-items="Model.AttrTypes">
+                                <select asp-for="AddedOrEditedAttr.AttributeType" asp-items="Model.AttrTypes"
+                                        class="type-select">
                                     <option value="">-Type-</option>
                                 </select>
                                 <div>
                                     <span asp-validation-for="AddedOrEditedAttr.AttributeType" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row white-b dictionaries-list">
+                            <div class="col-xs-3">
+                                Dictionary
+                                <span>
+                                    *
+                                </span>
+                            </div>
+                            <div class="col-xs-9">
+                                <select asp-for="AddedOrEditedAttr.DictionaryId" asp-items="Model.Dictionaries">
+                                    <option value="">-Dictionary-</option>
+                                </select>
+                                <div>
+                                    <span asp-validation-for="AddedOrEditedAttr.DictionaryId" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>

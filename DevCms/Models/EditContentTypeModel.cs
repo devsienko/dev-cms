@@ -32,7 +32,14 @@ namespace DevCms.Models
             {
                 Value = AttrType.Image.ToString(),
                 Text = AttrType.Image.ToString()
+            },
+            new SelectListItem
+            {
+                Value = AttrType.Dictionary.ToString(),
+                Text = AttrType.Dictionary.ToString()
             }
         };
+
+        public List<SelectListItem> Dictionaries { get; set; }
     }
 }

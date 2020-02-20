@@ -38,5 +38,21 @@
             var result = window.location.href.substr(baseUrl.length, resultLength);
             return result;
         }
+
+        $('.type-select').on('change', function () {
+            if (this.value === devCms.dictionaryTypeName)
+                $('.dictionaries-list').show();
+            else
+                $('.dictionaries-list').hide();
+        });
+
+        function initEntityTypePanel() {
+            if ($('.type-select').val() === devCms.dictionaryTypeName)
+                $('.dictionaries-list').show();
+            else
+                $('.dictionaries-list').hide();
+        }
+
+        initEntityTypePanel();
     });
 })(jQuery);

@@ -12,5 +12,7 @@ namespace DevCms.Models
         public int ContentTypeId { get; set; }
 
         public List<AttributeValueDto> Attrs{ get; set; }
+
+        public int DictionaryItemId { get; set; }
     }
 }

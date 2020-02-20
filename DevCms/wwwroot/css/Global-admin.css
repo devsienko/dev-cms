@@ -193,6 +193,11 @@ table {
 .form-panel input:focus, .form-panel textarea:focus {
     outline: none;
 }
+
+.form-panel select {
+    width: 100%;
+}
+
 .help-block {
     font-size: 10pt;
 }
