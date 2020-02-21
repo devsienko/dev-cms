@@ -1730,3 +1730,7 @@ a[aria-expanded="true"].collapsed > i.fa-caret-right:before {
     padding-bottom: 20px;
     margin-top: 15px;
 }
+
+.entity-name {
+    color: black;
+}

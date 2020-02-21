@@ -3,14 +3,16 @@ using System;
 using DevCms.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace devcms.Migrations
 {
     [DbContext(typeof(DevCmsDb))]
-    partial class DevCmsDbModelSnapshot : ModelSnapshot
+    [Migration("20200221072128_AddedDictionaryItemIdToAttrValueEntity")]
+    partial class AddedDictionaryItemIdToAttrValueEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

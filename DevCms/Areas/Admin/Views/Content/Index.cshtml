@@ -25,7 +25,7 @@
                     {
                         <div class="row white-b">
                             <div class="col-xs-3">
-                                @Model.Attrs[i].AttributeName&nbsp;*
+                                @Model.Attrs[i].AttributeName&nbsp;@(Model.Attrs[i].Required ? "*" : "")
                             </div>
                             <div class="col-xs-9">
                                 <input asp-for="@Model.Attrs[i].AttributeId" />
@@ -40,7 +40,7 @@
                                 }
                                 else if (Model.Attrs[i].AttributeType == AttrType.Image)
                                 {
-                                    <span class="img-att-value-box">
+                                    <span>
                                         <a data-lightbox="image-@Model.Attrs[i].AttributeId"
                                            data-title="@Model.Attrs[i].AttributeName">
 
@@ -57,13 +57,13 @@
                                 }
                                 else if (Model.Attrs[i].AttributeType == AttrType.Dictionary)
                                 {
-                                    <span>Dictionary attribute type under development</span>
-                                    @*<select asp-for="DictionaryItemId" asp-items="Model.AttrTypes">
-                                        <option value="">-Type-</option>
+                                    <input asp-for="@Model.Attrs[i].AttributeType" />
+                                    <select asp-for="@Model.Attrs[i].DictionaryItemId" asp-items="@Model.Attrs[i].DictionaryItems">
+                                        <option value="">-Select value-</option>
                                     </select>
                                     <div>
-                                        <span asp-validation-for="DictionaryItemId" class="text-danger"></span>
-                                    </div>*@
+                                        <span asp-validation-for="@Model.Attrs[i].DictionaryItemId" class="text-danger"></span>
+                                    </div>
                                 }
                             </div>
                         </div>

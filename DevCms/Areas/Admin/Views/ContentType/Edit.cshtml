@@ -51,8 +51,11 @@
                                 <div class="row type-block">
                                     <div class="col-xs-12 type-desc-wrap vcenter">
                                         <div class="type-name">
-                                            @attr.Name <span class="attrt-type-title">(@attr.AttributeType@(attr.AttributeType == AttrType.Dictionary ? ":" 
-                                                + Model.Dictionaries.First(d => d.Value == attr.DictionaryId.ToString()).Text : ""))</span>
+                                            @attr.Name 
+                                            <span class="attrt-type-title">
+                                                (@attr.AttributeType@(attr.AttributeType == AttrType.Dictionary ? ":" 
+                                                    + Model.Dictionaries.First(d => d.Value == attr.DictionaryId.ToString()).Text : ""))@(attr.Required ? "*" : "")
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="edit-delete-panel">

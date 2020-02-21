@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using DevCms.ContentTypes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DevCms.Models
 {
@@ -29,6 +30,8 @@ namespace DevCms.Models
         //[Required(ErrorMessage = @"Field is required.")]
         public IFormFile ValueAsImage { get; set; }
 
-        public List<DictionaryItem> DictionaryItems { get; set; }
+        public IEnumerable<SelectListItem> DictionaryItems { get; set; }
+
+        public int? DictionaryItemId { get; set; }
     }
 }

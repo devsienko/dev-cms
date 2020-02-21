@@ -12,6 +12,7 @@
         public int AttrId { get; set; }
         public Entity Entity { get; set; }
         public int EntityId { get; set; }
+        public int? DictionaryItemId { get; set; }//todo: consider separation AttrValue class to several classes
 
         public override string ToString()
         {

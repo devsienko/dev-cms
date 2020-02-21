@@ -25,7 +25,7 @@
                     {
                         <div class="row white-b">
                             <div class="col-xs-3">
-                                @Model.Attrs[i].AttributeName&nbsp;*
+                                @Model.Attrs[i].AttributeName&nbsp;@(Model.Attrs[i].Required ? "*" : "")
                             </div>
                             <div class="col-xs-9">
                                 <input asp-for="@Model.Attrs[i].Id" />
@@ -42,15 +42,15 @@
                                 }
                                 else if (Model.Attrs[i].AttributeType == AttrType.Image)
                                 {
-                                    <span class="img-att-value-box">
-                                        
+                                    <span>
+
                                         <a href="~/Images/Get/@Model.Attrs[i].Id"
                                            data-lightbox="image-@Model.Attrs[i].AttributeId"
                                            data-title="@Model.Attrs[i].AttributeName">
 
                                             <img id="img-att-value-@(Model.Attrs[i].AttributeId)"
                                                  src="~/Images/Get/@Model.Attrs[i].Id"
-                                                 class="preview-av-img" style="display: initial;"/>
+                                                 class="preview-av-img" style="display: initial;" />
                                         </a>
                                         <input asp-for="@Model.Attrs[i].AttributeType" />
                                         <input asp-for="@Model.Attrs[i].ValueAsImage"
@@ -58,6 +58,16 @@
                                                data-val-required="@(Model.Attrs[i].Required ? "Field &quot;" + Model.Attrs[i].AttributeName + "&quot; is required." : "")" />
                                         <span asp-validation-for="@Model.Attrs[i].ValueAsImage" class="text-danger"></span>
                                     </span>
+                                }
+                                else if (Model.Attrs[i].AttributeType == AttrType.Dictionary)
+                                {
+                                    <input asp-for="@Model.Attrs[i].AttributeType" />
+                                    <select asp-for="@Model.Attrs[i].DictionaryItemId" asp-items="@Model.Attrs[i].DictionaryItems">
+                                        <option value="">-Select value-</option>
+                                    </select>
+                                    <div>
+                                        <span asp-validation-for="@Model.Attrs[i].DictionaryItemId" class="text-danger"></span>
+                                    </div>
                                 }
                             </div>
                         </div>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using DevCms.Models;
 using DevCms.ContentTypes;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Attribute = DevCms.ContentTypes.Attribute;
 
@@ -41,18 +42,28 @@ namespace DevCms.Areas.Admin.Controllers
                         AttributeType = a.AttrType,
                         AttributeId = a.Id,
                         Required = a.Required,
-                        DictionaryItems = a.AttrType != AttrType.Dictionary
-                                          ? null
-                                          : GetDictionaryItems()
+                        DictionaryItems = a.AttrType == AttrType.Dictionary
+                                          ? GetDictionaryItems(a.DictionaryId)
+                                          : null
                     }).ToList()
                     : new List<AttributeValueDto>()
             };
             return View(model);
         }
 
-        private List<DictionaryItem> GetDictionaryItems()//int dictionaryId
+        private IEnumerable<SelectListItem> GetDictionaryItems(int? dictionaryId)
         {
-            var result = new List<DictionaryItem>();
+            var result = dictionaryId.HasValue
+                ? _db.Dictionaries
+                    .Include(d => d.Items)
+                    .First(d => d.Id == dictionaryId.Value)
+                    .Items
+                    .Select(i => new SelectListItem
+                    {
+                        Value = i.Id.ToString(),
+                        Text = i.Name
+                    })
+                :new List<SelectListItem>();
             return result;
         }
 
@@ -118,6 +129,10 @@ namespace DevCms.Areas.Admin.Controllers
                 }
 
             }
+            else if (avDto.AttributeType == AttrType.Dictionary)
+            {
+                result.DictionaryItemId = avDto.DictionaryItemId;
+            }
             else
             {
                 throw new NotImplementedException();
@@ -151,7 +166,7 @@ namespace DevCms.Areas.Admin.Controllers
             }
             else
             {
-                throw new NotImplementedException();
+                dbAv.DictionaryItemId = modelAv.DictionaryItemId;
             }
         }
 
@@ -188,7 +203,10 @@ namespace DevCms.Areas.Admin.Controllers
                 AttributeName = attr.Name,
                 AttributeId = attr.Id,
                 AttributeType = attr.AttrType,
-                Required = attr.Required
+                Required = attr.Required,
+                DictionaryItems = attr.AttrType == AttrType.Dictionary
+                    ? GetDictionaryItems(attr.DictionaryId)
+                    : null
             };
             var av = entity.AttrValues.FirstOrDefault(attrValue => attrValue.AttrId == attr.Id);
             if (av == null)
@@ -204,7 +222,7 @@ namespace DevCms.Areas.Admin.Controllers
             }
             else
             {
-                throw new ArgumentException("attr.AttrType");
+                result.DictionaryItemId = av.DictionaryItemId;
             }
 
             return result;
