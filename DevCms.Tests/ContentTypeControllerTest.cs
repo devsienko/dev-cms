@@ -141,6 +141,7 @@ namespace DevCms.Tests
         {
             var mockRepo = new Mock<DevCmsDb>();
             mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeList());
+            mockRepo.SetupDbSetMock(db => db.Dictionaries, GetDictionaries());
 
             var controller = new ContentTypeController(mockRepo.Object);
             var result = controller.Edit(1, null);
@@ -185,6 +186,7 @@ namespace DevCms.Tests
         {
             var mockRepo = new Mock<DevCmsDb>();
             mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeList());
+            mockRepo.SetupDbSetMock(db => db.Dictionaries, GetDictionaries());
 
             var controller = new ContentTypeController(mockRepo.Object);
             var result = controller.Edit(1, 1);
@@ -225,6 +227,7 @@ namespace DevCms.Tests
         {
             var mockRepo = new Mock<DevCmsDb>();
             mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeList());
+            mockRepo.SetupDbSetMock(db => db.Dictionaries, GetDictionaries());
 
             var controller = new ContentTypeController(mockRepo.Object);
             var model = new EditContentTypeModel
@@ -255,6 +258,72 @@ namespace DevCms.Tests
         }
 
         [Fact]
+        public void AddDictionaryAttributeTest()
+        {
+            var mockRepo = new Mock<DevCmsDb>();
+            mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeList());
+            mockRepo.SetupDbSetMock(db => db.ContentAttrs, GetAttributeList());
+            mockRepo.SetupDbSetMock(db => db.Dictionaries, GetDictionaries());
+
+            var controller = new ContentTypeController(mockRepo.Object);
+            var model = new EditContentTypeModel
+            {
+                Id = 1, 
+                Name = "Test name",
+                AddedOrEditedAttr = new ContentAttributeModel
+                {
+                    Id = null, //it means that's a new attribute
+                    Name = "Sex",
+                    AttributeType = AttrType.Dictionary,
+                    DictionaryId = 1
+                }
+            };
+            controller.ModelState.AddModelError("Name", "Required");
+
+            Assert.Single(mockRepo.Object.ContentTypes.First().Attrs);
+            var result = controller.Edit(model);
+            Assert.Equal(2, mockRepo.Object.ContentTypes.First().Attrs.Count);
+            Assert.IsType<ViewResult>(result);
+
+            mockRepo.Verify(db => db.SaveChanges(), Times.Once());
+            var attr = mockRepo.Object.ContentTypes.First().Attrs.Last();
+            Assert.Equal("Sex", attr.Name);
+            Assert.Equal(AttrType.Dictionary, attr.AttrType);
+            Assert.Equal(mockRepo.Object.Dictionaries.First().Id, attr.DictionaryId);
+        }
+
+        [Fact]
+        public void AddDictionaryAttributeTest_DictionaryNotFound()
+        {
+            var mockRepo = new Mock<DevCmsDb>();
+            mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeList());
+            mockRepo.SetupDbSetMock(db => db.ContentAttrs, GetAttributeList());
+            mockRepo.SetupDbSetMock(db => db.Dictionaries, GetDictionaries());
+
+            var controller = new ContentTypeController(mockRepo.Object);
+            var model = new EditContentTypeModel
+            {
+                Id = 1,
+                Name = "Test name",
+                AddedOrEditedAttr = new ContentAttributeModel
+                {
+                    Id = null, //it means that's a new attribute
+                    Name = "Sex",
+                    AttributeType = AttrType.Dictionary,
+                    DictionaryId = 11
+                }
+            };
+            controller.ModelState.AddModelError("Name", "Required");
+
+            Assert.Single(mockRepo.Object.ContentTypes.First().Attrs);
+            var result = controller.Edit(model);
+
+            Assert.IsType<NotFoundObjectResult>(result);
+            var r = (NotFoundObjectResult)result;
+            Assert.Equal($"Dictionary with id = { model.AddedOrEditedAttr.DictionaryId } not found", r.Value);
+        }
+
+        [Fact]
         public void Edit_Post_Test_InvalidAttrId()
         {
             var mockRepo = new Mock<DevCmsDb>();
@@ -281,6 +350,7 @@ namespace DevCms.Tests
         {
             var mockRepo = new Mock<DevCmsDb>();
             mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeList());
+            mockRepo.SetupDbSetMock(db => db.Dictionaries, GetDictionaries());
 
             var controller = new ContentTypeController(mockRepo.Object);
             var model = new EditContentTypeModel
@@ -306,6 +376,7 @@ namespace DevCms.Tests
         {
             var mockRepo = new Mock<DevCmsDb>();
             mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeList());
+            mockRepo.SetupDbSetMock(db => db.Dictionaries, GetDictionaries());
 
             var controller = new ContentTypeController(mockRepo.Object);
             var model = new EditContentTypeModel
@@ -408,6 +479,32 @@ namespace DevCms.Tests
                             Name = "Attr1",
                             ContentTypeId = 1,
                             Required = true
+                        }
+                    }
+                }
+            };
+            return result;
+        }
+
+        private List<Dictionary> GetDictionaries()
+        {
+            var result = new List<Dictionary>
+            {
+                new Dictionary
+                {
+                    Id = 1,
+                    Name = "Sex",
+                    Items = new List<DictionaryItem>
+                    {
+                        new DictionaryItem
+                        {
+                            Id = 1,
+                            Name = "Male"
+                        },
+                        new DictionaryItem
+                        {
+                            Id = 2,
+                            Name = "Female"
                         }
                     }
                 }

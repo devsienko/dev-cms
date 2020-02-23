@@ -82,6 +82,11 @@ namespace DevCms.Areas.Admin.Controllers
                     .FirstOrDefault(t => t.Id == model.Id);
                 if (contentType == null)
                     return NotFound();
+                if (model.AddedOrEditedAttr.AttributeType == AttrType.Dictionary)
+                {
+                    if (!_db.Dictionaries.Any(d => d.Id == model.AddedOrEditedAttr.DictionaryId))
+                        return NotFound($"Dictionary with id = { model.AddedOrEditedAttr.DictionaryId } not found");
+                }
                 contentType.Attrs.Add(new Attribute
                 {
                     Name = model.AddedOrEditedAttr.Name,
