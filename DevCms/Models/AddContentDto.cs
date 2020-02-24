@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevCms.Models
 {
-    public class AddContentDto
+    public class AddEntityDto
     {
         [HiddenInput]
         public int? Id { get; set; }

@@ -32,7 +32,7 @@ namespace DevCms.Areas.Admin.Controllers
                 .FirstOrDefault(t => t.Id == id);
             if (contentType == null)
                 return NotFound();
-            var model = new AddContentDto
+            var model = new AddEntityDto
             {
                 ContentTypeId = contentType.Id,
                 Attrs = contentType.Attrs.Any()
@@ -68,7 +68,7 @@ namespace DevCms.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(AddContentDto model)
+        public IActionResult Index(AddEntityDto model)
         {
             //todo: check all required attribute
             if (ModelState.IsValid)
@@ -82,7 +82,7 @@ namespace DevCms.Areas.Admin.Controllers
                     return NotFound();
                 }
 
-                if (!AllAttrsExests(model.Attrs, contentType)) 
+                if (!AllAttrsExists(model.Attrs, contentType)) 
                 {
                     //todo: to log
                     return NotFound();
@@ -247,7 +247,7 @@ namespace DevCms.Areas.Admin.Controllers
                     .Include(t => t.Attrs)
                     .FirstOrDefault(t => t.Id == model.ContentTypeId);
 
-                if (!AllAttrsExests(model.Attrs, contentType))
+                if (!AllAttrsExists(model.Attrs, contentType))
                     return NotFound();
 
                 foreach (var modelAv in model.Attrs)
@@ -271,7 +271,7 @@ namespace DevCms.Areas.Admin.Controllers
         /// <summary>
         /// all model attributes exists in the db
         /// </summary>
-        private bool AllAttrsExests(List<AttributeValueDto> attrs, EntityType entityType)
+        private bool AllAttrsExists(List<AttributeValueDto> attrs, EntityType entityType)
         {
             var result = attrs
                 .Any(modelAttr => entityType.Attrs.Any(dbAttr => dbAttr.Id == modelAttr.AttributeId));

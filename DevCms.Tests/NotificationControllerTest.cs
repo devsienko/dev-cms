@@ -15,7 +15,7 @@ namespace DevCms.Tests
         public void Create_Test_InvalidFormData()
         {
             var mockRepo = new Mock<DevCmsDb>();
-            var emailServiceMock = new Mock<EmailService>();
+            var emailServiceMock = new Mock<EmailService>(mockRepo.Object);
 
             var controller = new NotificationController(mockRepo.Object, emailServiceMock.Object);
 
@@ -31,7 +31,7 @@ namespace DevCms.Tests
         {
             var mockRepo = new Mock<DevCmsDb>();
             mockRepo.SetupDbSetMock(db => db.Notifications, new List<Notification>());
-            var emailServiceMock = new Mock<EmailService>();
+            var emailServiceMock = new Mock<EmailService>(mockRepo.Object);
 
             var controller = new NotificationController(mockRepo.Object, emailServiceMock.Object);
 

@@ -41,7 +41,7 @@ namespace DevCms.Tests
 
             var result = controller.Index(1);
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<AddContentDto>(
+            var model = Assert.IsAssignableFrom<AddEntityDto>(
                 viewResult.ViewData.Model);
 
             Assert.Equal(1, model.ContentTypeId);
@@ -61,7 +61,7 @@ namespace DevCms.Tests
 
             var controller = new ContentController(mockRepo.Object);
 
-            var model = new AddContentDto
+            var model = new AddEntityDto
             {
                 Id = null,
                 ContentTypeId = 1,
@@ -88,6 +88,42 @@ namespace DevCms.Tests
         }
 
         [Fact]
+        public void AddEntityWithDictionaryAttributeValue()
+        {
+            var dbMock = GetContentTypeListWithDictionaries();
+            var controller = new ContentController(dbMock.Object);
+
+            var model = new AddEntityDto
+            {
+                Id = null,//new entity
+                ContentTypeId = 1,
+                Attrs = new List<AttributeValueDto>
+                {
+                    new AttributeValueDto
+                    {
+                        AttributeId = 1,
+                        DictionaryItemId = 1,
+                        AttributeType = AttrType.Dictionary
+                    }
+                }
+            };
+
+            Assert.Equal(0,dbMock.Object.Content.Count());
+
+            var result = controller.Index(model);
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Index", viewResult.ActionName);
+
+            dbMock.Verify(db => db.SaveChanges(), Times.Once());
+            Assert.Equal(1, dbMock.Object.Content.Count());
+
+            var attrValues = dbMock.Object.Content.First().AttrValues;
+            Assert.Single(attrValues);
+            Assert.Equal(1, attrValues.First().DictionaryItemId);
+            Assert.Null(attrValues.First().Value);
+        }
+        
+        [Fact]
         public void Index_Test_Post_InvalidModel()
         {
             var mockRepo = new Mock<DevCmsDb>();
@@ -97,7 +133,7 @@ namespace DevCms.Tests
             var controller = new ContentController(mockRepo.Object);
             controller.ModelState.AddModelError("Name", "Required");
 
-            var model = new AddContentDto
+            var model = new AddEntityDto
             {
                 Id = null,
                 ContentTypeId = 1,
@@ -113,7 +149,7 @@ namespace DevCms.Tests
 
             var result = controller.Index(model);
             var viewResult = Assert.IsType<ViewResult>(result);
-            var resultModel = Assert.IsAssignableFrom<AddContentDto>(
+            var resultModel = Assert.IsAssignableFrom<AddEntityDto>(
                 viewResult.ViewData.Model);
 
             Assert.Null(resultModel.Id);
@@ -130,7 +166,7 @@ namespace DevCms.Tests
 
             var controller = new ContentController(mockRepo.Object);
 
-            var model = new AddContentDto
+            var model = new AddEntityDto
             {
                 ContentTypeId = 11
             };
@@ -138,7 +174,7 @@ namespace DevCms.Tests
             var result = controller.Index(model);
             Assert.IsType<NotFoundResult>(result);
 
-            model = new AddContentDto
+            model = new AddEntityDto
             {
                 ContentTypeId = 1,
                 Attrs = new List<AttributeValueDto>
@@ -232,7 +268,7 @@ namespace DevCms.Tests
         {
             var mockRepo = new Mock<DevCmsDb>();
             mockRepo.SetupDbSetMock(db => db.Content, GetContentList());
-            mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeWithoutAttributess());
+            mockRepo.SetupDbSetMock(db => db.ContentTypes, GetContentTypeWithoutAttributes());
 
             var controller = new ContentController(mockRepo.Object);
 
@@ -519,6 +555,58 @@ namespace DevCms.Tests
             return result;
         }
 
+        private Mock<DevCmsDb> GetContentTypeListWithDictionaries()
+        {
+            var result = new Mock<DevCmsDb>();
+            result.SetupDbSetMock(db => db.Content, new List<Entity>());
+
+            var entityTypes = new List<EntityType>
+            {
+                new EntityType
+                {
+                    Id = 1,
+                    Name = "Test name",
+                    Attrs = new List<Attribute>
+                    {
+                        new Attribute
+                        {
+                            Id = 1,
+                            AttrType = AttrType.Dictionary,
+                            Name = "Attr1",
+                            ContentTypeId = 1,
+                            DictionaryId = 1
+                        }
+                    }
+                }
+            };
+            result.SetupDbSetMock(db => db.ContentTypes, entityTypes);
+
+            var dictionaries = new List<Dictionary>
+            {
+                new Dictionary
+                {
+                    Id = 1,
+                    Name = "Sex",
+                    Items = new List<DictionaryItem>
+                    {
+                        new DictionaryItem
+                        {
+                            Id = 1,
+                            Name = "Male",
+                        },
+                        new DictionaryItem
+                        {
+                            Id = 2,
+                            Name = "Female",
+                        }
+                    }
+                }
+            };
+            result.SetupDbSetMock(db => db.Dictionaries, dictionaries);
+
+            return result;
+        }
+
         private List<EntityType> GetContentTypeList1()
         {
             var result = new List<EntityType>
@@ -573,7 +661,7 @@ namespace DevCms.Tests
             return result;
         }
 
-        private List<EntityType> GetContentTypeWithoutAttributess()
+        private List<EntityType> GetContentTypeWithoutAttributes()
         {
             var result = new List<EntityType>
             {
