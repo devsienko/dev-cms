@@ -28,7 +28,7 @@ and see the result:
 
 ![](https://github.com/devsienko/dev-cms/blob/master/Git-screens/4.png)
 
-Right now only two attribute types are available: string and image (I hope we improve it).
+Right now only three attribute types are available: string, dictionary and image (I hope we improve it).
 
 ## Installation instructions (.net core 2.1 sdk & runtime, nginx on Ubuntu 18.04): 
 
