@@ -40,6 +40,8 @@ namespace DevCms.Util
             var result = _db.Content
                 .Where(c => c.EntityType.Name == typeName)
                 .Include(c => c.AttrValues)
+                .ThenInclude(av => av.DictionaryItem)
+                .Include(c => c.AttrValues)
                 .ThenInclude(av => av.Attr)
                 .AsEnumerable();
 

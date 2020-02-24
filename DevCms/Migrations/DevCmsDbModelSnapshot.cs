@@ -59,6 +59,8 @@ namespace devcms.Migrations
 
                     b.HasIndex("AttrId");
 
+                    b.HasIndex("DictionaryItemId");
+
                     b.HasIndex("EntityId");
 
                     b.HasIndex("ValueAsFileId");
@@ -221,6 +223,10 @@ namespace devcms.Migrations
                         .WithMany()
                         .HasForeignKey("AttrId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DevCms.ContentTypes.DictionaryItem", "DictionaryItem")
+                        .WithMany()
+                        .HasForeignKey("DictionaryItemId");
 
                     b.HasOne("DevCms.ContentTypes.Entity", "Entity")
                         .WithMany("AttrValues")
