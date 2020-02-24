@@ -148,7 +148,7 @@ namespace DevCms.Areas.Admin.Controllers
             }
             else if (modelAv.AttributeType == AttrType.Image)
             {
-                if (modelAv.Required || modelAv.ValueAsImage != null)
+                if (modelAv.ValueAsImage != null)
                 {
                     byte[] imageData;
                     using (var binaryReader = new BinaryReader(modelAv.ValueAsImage.OpenReadStream()))

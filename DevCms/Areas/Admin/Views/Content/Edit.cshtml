@@ -53,16 +53,15 @@
                                                  class="preview-av-img" style="display: initial;" />
                                         </a>
                                         <input asp-for="@Model.Attrs[i].AttributeType" />
-                                        <input asp-for="@Model.Attrs[i].ValueAsImage"
-                                               data-val="@(Model.Attrs[i].Required ? "true" : "false")"
-                                               data-val-required="@(Model.Attrs[i].Required ? "Field &quot;" + Model.Attrs[i].AttributeName + "&quot; is required." : "")" />
-                                        <span asp-validation-for="@Model.Attrs[i].ValueAsImage" class="text-danger"></span>
+                                        <input asp-for="@Model.Attrs[i].ValueAsImage" />
                                     </span>
                                 }
                                 else if (Model.Attrs[i].AttributeType == AttrType.Dictionary)
                                 {
                                     <input asp-for="@Model.Attrs[i].AttributeType" />
-                                    <select asp-for="@Model.Attrs[i].DictionaryItemId" asp-items="@Model.Attrs[i].DictionaryItems">
+                                    <select asp-for="@Model.Attrs[i].DictionaryItemId" asp-items="@Model.Attrs[i].DictionaryItems"
+                                        data-val="@(Model.Attrs[i].Required ? "true" : "false")"
+                                        data-val-required="@(Model.Attrs[i].Required ? "Field &quot;" + Model.Attrs[i].AttributeName + "&quot; is required." : "")">
                                         <option value="">-Select value-</option>
                                     </select>
                                     <div>
